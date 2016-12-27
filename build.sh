@@ -1,3 +1,7 @@
+#!/bin/bash
+set -e
+
+npm run lint
 npm run webpack
 
 SOURCE=src
