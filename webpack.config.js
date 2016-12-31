@@ -6,23 +6,46 @@ module.exports = {
     loaders: [
       {
         test: /\.jsx?$/,
-        exclude: /(node_modules|common)/,
+        exclude: /(node_modules|neal-react)/,
         loaders: ['babel']
       },
       {
         test: /\.pug$/,
         loader: 'pug'
-      },    
+      },
+      {
+        test: /\.scss$/,
+        loader: "style!css!sass"
+      }
     ]
   },
-  entry: './src/js/index',
+  entry: [
+    './src/js/app',
+    './src/css/main.scss'
+  ],
   output: {
     filename: 'bundle.js',
     path: __dirname + '/dist'
   },
   plugins: [
+    new webpack.optimize.UglifyJsPlugin({
+        minimize: true,
+        compress: {
+            warnings: false
+        }}),
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify('production')
+      }
+    }),    
+    new webpack.ProvidePlugin({
+        $: "jquery",
+        jQuery: "jquery",
+        "window.jQuery": "jquery"
+
+    }),
     new HtmlWebpackPlugin({
-      template: 'src/index.pug'
+      template: 'src/app.pug'
     })
   ]
 }
