@@ -1,4 +1,7 @@
 'use strict';
+import 'jquery';
+import 'tether';
+import 'bootstrap/dist/js/bootstrap';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, IndexRoute, Route, Link, Redirect, browserHistory } from "react-router";

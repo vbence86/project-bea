@@ -15,7 +15,7 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        loader: "style!css!sass"
+        loader: 'style!css!sass'
       }
     ]
   },
@@ -39,10 +39,10 @@ module.exports = {
       }
     }),    
     new webpack.ProvidePlugin({
-        $: "jquery",
-        jQuery: "jquery",
-        "window.jQuery": "jquery"
-
+        $: 'jquery',
+        jQuery: 'jquery',
+        'window.jQuery': 'jquery',
+        'window.Tether': 'tether'
     }),
     new HtmlWebpackPlugin({
       template: 'src/app.pug'

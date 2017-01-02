@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
 import {
-  Code,
   CustomerQuote, CustomerQuotes,
   DropdownMenu, DropdownToggle,
   Footer,
@@ -69,28 +68,6 @@ const pricingPlan3 = Object.assign({}, pricingPlan2, {
   }),
 });
 
-const sampleCode = `<Page>
-  <Hero><h1>{ /* Content */ }</h1></Hero>
-  <Section heading="Hello!">
-    <HorizontalSplit padding="md"> { /* Content */ } </HorizontalSplit>
-  </Section>
-  <Section>
-    <Team>
-      <TeamMember name="Link" title="Co-founder" imageUrl="img/link.jpg"> { /* Description */ } </TeamMember>
-      <TeamMember name="Yoshi" title="Co-founder" imageUrl="img/yoshi.jpg"> { /* Description */ } </TeamMember>
-    </Team>
-  </Section>
-  <Section>
-    <PricingTable>
-      <PricingPlan {... pricingPlan1} />
-      <PricingPlan {... pricingPlan2} />
-      <PricingPlan {... pricingPlan3} />
-    </PricingTable>
-    <SignupInline onSubmit={onSignupCallback}/>
-  </Section>
-</Page>
-`;
-
 export default class Homepage extends React.Component {
 
   render() {
@@ -133,10 +110,6 @@ export default class Homepage extends React.Component {
           </ImageList>
         </Section>
 
-        <Section className="nopad-bottom">
-          <Code lang="jsx" block>{sampleCode}</Code>
-        </Section>
-
         <Section>
           <HorizontalSplit padding="md">
             <div>
@@ -162,7 +135,14 @@ export default class Homepage extends React.Component {
         <Section heading="Inline and Modal Signup components" className="gray">
           <p>Use these components to capture user data, display a payment dialog and/or send them to your own backend for handling. Of course, you could also just use a Typeform to collect user emails. </p>
           <SignupInline onSubmit={onSignup} />
-          <SignupModal modalId="signup-modal" onSubmit={onSignup} />
+          <SignupModal modalId="signup-modal" onSubmit={onSignup}>
+            <div>
+              <SignupModal.Input name="name" required label="Name" placeholder="Name" />
+              <SignupModal.Input type="email" required name="email" label="Email" placeholder="Email" />
+              <SignupModal.Input required name="age" label="Age" placeholder="Age" />
+              <SignupModal.Input type="password" required name="password" label="Password" placeholder="Password" />
+            </div>
+          </SignupModal>
           <p>
             <a className="btn btn-primary btn-ghost" data-toggle="modal" data-target="#signup-modal">Show Signup modal</a>
           </p>
