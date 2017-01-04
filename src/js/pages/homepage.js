@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
+import contentful from 'contentful';
+import util from 'util';
 import {
   CustomerQuote, CustomerQuotes,
   DropdownMenu, DropdownToggle,
@@ -16,6 +18,16 @@ import {
   Team,
   TeamMember,
 } from 'neal-react';
+
+const client = contentful.createClient({
+  space: 'v9u7v7jawm36',
+  accessToken: 'a15a60af447bb88662e7eed5dc8ed2042d623307cfbda6b9c1e7aa849ca15ef7'
+});
+
+client.getEntry('4KlKVbhTc4sYa6oq26keua')
+.then(function (entry) {
+  console.log(util.inspect(entry, {depth: null}))
+});
 
 const brandName = 'SamplePage';
 const brand = <span>{brandName}</span>;
