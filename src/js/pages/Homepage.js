@@ -73,26 +73,18 @@ export default class Homepage extends React.Component {
 
   constructor(props) {
     super(props);
-    const pageInfo = ContentProvider.get('pageInfo');
-    console.log(pageInfo);    
+
+    const business = ContentProvider.get('business');  
     this.state = {
-      pageTitle: pageInfo.pageTitle
+      business: business
     };
-    console.log(this.state);
   }
 
-  syncContent() {
-    const pageInfo = ContentProvider.get('pageInfo');
-    console.log(pageInfo);
-    this.setState({ 
-      pageTitle: pageInfo.pageTitle 
-    }); 
-  }
 
   render() {
     return (
       <Page>
-        <Navbar brand={this.state.pageTitle}>
+        <Navbar brand={this.state.business.title}>
           <NavItem><Link to="Home" className="nav-link">Home</Link></NavItem>
           <NavItem dropdown={true}>
             <DropdownToggle>Github</DropdownToggle>
