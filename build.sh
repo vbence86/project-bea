@@ -7,7 +7,7 @@ export CONTENTFUL_ACCESS_TOKEN=a15a60af447bb88662e7eed5dc8ed2042d623307cfbda6b9c
 set -e
 
 npm run lint
-webpack
+webpack --bail
 
 SOURCE=src
 DIST=dist
@@ -17,4 +17,6 @@ DIR_FONTS=fonts
 cp -r $SOURCE/$DIR_CSS $DIST/$DIR_CSS
 cp -r $SOURCE/$DIR_FONTS $DIST/$DIR_FONTS
 
+echo "----------------------------------------------";
 echo "Build successful!";
+echo "----------------------------------------------";

@@ -6,9 +6,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, IndexRoute, Route, Link, Redirect, browserHistory } from "react-router";
 import { App } from "neal-react";
-import Homepage from './pages/homepage';
 
-const root = document.getElementById('root');
+import { ContentProvider } from './components/ContentProvider';
+import Homepage from './pages/Homepage';
 
 class MainApp extends React.Component {
   render() {
@@ -23,6 +23,12 @@ class MainApp extends React.Component {
     );
   }
 }
+
+ContentProvider.connect({
+  space: process.env.CONTENTFUL_SPACE,
+  accessToken: process.env.CONTENTFUL_ACCESS_TOKEN,
+  locale: 'en-GB'
+});
 
 ReactDOM.render((
   <Router history={ browserHistory }>

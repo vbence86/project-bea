@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
-import contentful from 'contentful';
-import util from 'util';
+import { ContentProvider } from '../components/ContentProvider';
 import {
   CustomerQuote, CustomerQuotes,
   DropdownMenu, DropdownToggle,
@@ -19,17 +18,7 @@ import {
   TeamMember,
 } from 'neal-react';
 
-const client = contentful.createClient({
-  space: process.env.CONTENTFUL_SPACE,
-  accessToken: process.env.CONTENTFUL_ACCESS_TOKEN
-});
-
-client.getEntry('4KlKVbhTc4sYa6oq26keua')
-.then(function (entry) {
-  console.log(util.inspect(entry, {depth: null}))
-});
-
-const brandName = 'SamplePage';
+const brandName = 'Test';
 const brand = <span>{brandName}</span>;
 
 const onSignup = ({ name: name, email: email, password: password }) => Stripe.StripeHandler.open({
@@ -82,11 +71,28 @@ const pricingPlan3 = Object.assign({}, pricingPlan2, {
 
 export default class Homepage extends React.Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      pageTitle: 'Bence'
+    };
+    setTimeout(function() {
+      console.log('Andras');
+      this.state.pageTitle = 'Andras';
+    }.bind(this), 1000);    
+  }
+
+  /*ContentProvider
+    .ready()
+    .then(() => {
+      console.log(ContentProvider.get('pageInfo'));
+      state.pageTitle = ContentProvider.get('pageInfo').pageTitle;
+    });*/
+
   render() {
     return (
       <Page>
-
-        <Navbar brand={brand}>
+        <Navbar brand={this.state.pageTitle}>
           <NavItem><Link to="Home" className="nav-link">Home</Link></NavItem>
           <NavItem dropdown={true}>
             <DropdownToggle>Github</DropdownToggle>
