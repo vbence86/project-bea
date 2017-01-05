@@ -28,16 +28,18 @@ module.exports = {
     path: __dirname + '/dist'
   },
   plugins: [
+    new webpack.DefinePlugin({
+      'process.env': {
+        'NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+        'CONTENTFUL_SPACE': JSON.stringify(process.env.CONTENTFUL_SPACE),
+        'CONTENTFUL_ACCESS_TOKEN': JSON.stringify(process.env.CONTENTFUL_ACCESS_TOKEN)
+      }
+    }),    
     new webpack.optimize.UglifyJsPlugin({
         minimize: true,
         compress: {
             warnings: false
         }}),
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify('production')
-      }
-    }),    
     new webpack.ProvidePlugin({
         $: 'jquery',
         jQuery: 'jquery',

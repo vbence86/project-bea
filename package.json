@@ -6,7 +6,6 @@
   "scripts": {
     "start": "node server.js",
     "build": "./build.sh",
-    "webpack": "webpack",
     "lint": "eslint src/js/**/*.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "postinstall": "cd node_modules/neal-react && npm install"
