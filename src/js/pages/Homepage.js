@@ -73,21 +73,21 @@ export default class Homepage extends React.Component {
 
   constructor(props) {
     super(props);
+    const pageInfo = ContentProvider.get('pageInfo');
+    console.log(pageInfo);    
     this.state = {
-      pageTitle: 'Bence'
+      pageTitle: pageInfo.pageTitle
     };
-    setTimeout(function() {
-      console.log('Andras');
-      this.state.pageTitle = 'Andras';
-    }.bind(this), 1000);    
+    console.log(this.state);
   }
 
-  /*ContentProvider
-    .ready()
-    .then(() => {
-      console.log(ContentProvider.get('pageInfo'));
-      state.pageTitle = ContentProvider.get('pageInfo').pageTitle;
-    });*/
+  syncContent() {
+    const pageInfo = ContentProvider.get('pageInfo');
+    console.log(pageInfo);
+    this.setState({ 
+      pageTitle: pageInfo.pageTitle 
+    }); 
+  }
 
   render() {
     return (

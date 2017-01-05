@@ -24,17 +24,26 @@ class MainApp extends React.Component {
   }
 }
 
-ContentProvider.connect({
-  space: process.env.CONTENTFUL_SPACE,
-  accessToken: process.env.CONTENTFUL_ACCESS_TOKEN,
-  locale: 'en-GB'
-});
+function syncContentFromContentful() {
+  return ContentProvider.connect({
+    space: process.env.CONTENTFUL_SPACE,
+    accessToken: process.env.CONTENTFUL_ACCESS_TOKEN,
+    locale: 'en-GB'
+  });
+}
 
-ReactDOM.render((
-  <Router history={ browserHistory }>
-    <Route path="/" component={ MainApp } history={ browserHistory }>
-      <IndexRoute name="home" component={ Homepage }/>
-      <Route path="*" component={ Homepage }/>
-    </Route>
-  </Router>
-), document.getElementById("root"));
+
+Promise.all([
+  syncContentFromContentful()
+]).then(() => {
+
+  ReactDOM.render((
+    <Router history={ browserHistory }>
+      <Route path="/" component={ MainApp } history={ browserHistory }>
+        <IndexRoute name="home" component={ Homepage }/>
+        <Route path="*" component={ Homepage }/>
+      </Route>
+    </Router>
+  ), document.getElementById("root"));
+
+});

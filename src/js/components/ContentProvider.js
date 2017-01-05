@@ -4,8 +4,6 @@ const contentful = require('contentful');
 const DEFAULT_LOCALE = 'en-GB';
 const content = {};
 let client;
-let locale;
-let promise;
 
 function processContent(entries, locale) {
   if (!entries || !entries.forEach) return;
@@ -24,22 +22,16 @@ export let ContentProvider = {
   connect(config) {
     if (!config) return Promise.resolve('Invalid config object');
 
-    locale = config.locale || DEFAULT_LOCALE;
     client = contentful.createClient({
       space: config.space,
       accessToken: config.accessToken
     });
-  },
-
-  ready() {
-    if (!promise) {
-      console.log('promise is created');
-      promise = client.sync({initial: true})
-        .then(response => {
-          processContent(response.entries, locale);
-        });
-    }
-    return promise;
+    
+    return client.sync({initial: true})
+      .then(response => {
+        console.log(response);
+        processContent(response.entries, config.locale || DEFAULT_LOCALE);
+      });
   },
 
   get(id) {
