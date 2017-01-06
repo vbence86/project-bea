@@ -11,10 +11,11 @@ webpack --bail
 
 SOURCE=src
 DIST=dist
+DIR_SASS=scss
 DIR_CSS=css
 DIR_FONTS=fonts
 
-cp -r $SOURCE/$DIR_CSS $DIST/$DIR_CSS
+cp -r $SOURCE/$DIR_SASS $DIST/$DIR_CSS
 cp -r $SOURCE/$DIR_FONTS $DIST/$DIR_FONTS
 
 echo "----------------------------------------------";

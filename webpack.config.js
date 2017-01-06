@@ -21,7 +21,7 @@ module.exports = {
   },
   entry: [
     './src/js/app',
-    './src/css/main.scss'
+    './src/scss/main.scss'
   ],
   output: {
     filename: 'bundle.js',
