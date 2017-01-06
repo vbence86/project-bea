@@ -29,7 +29,6 @@ export let ContentProvider = {
     
     return client.sync({initial: true})
       .then(response => {
-        console.log(response);
         processContent(response.entries, config.locale || DEFAULT_LOCALE);
       });
   },
