@@ -4,8 +4,8 @@ import 'tether';
 import 'bootstrap/dist/js/bootstrap';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, IndexRoute, Route, Link, Redirect, browserHistory } from "react-router";
-import { App } from "neal-react";
+import { Router, IndexRoute, Route, browserHistory } from 'react-router';
+import { App } from 'neal-react';
 
 import { ContentProvider } from './components/ContentProvider';
 import Homepage from './pages/Homepage';
@@ -40,10 +40,10 @@ Promise.all([
   ReactDOM.render((
     <Router history={ browserHistory }>
       <Route path="/" component={ MainApp } history={ browserHistory }>
-        <IndexRoute name="home" component={ Homepage }/>
-        <Route path="*" component={ Homepage }/>
+        <IndexRoute name="home" component={ Homepage } />
+        <Route path="*" component={ Homepage } />
       </Route>
     </Router>
-  ), document.getElementById("root"));
+  ), document.getElementById('root'));
 
 });
