@@ -1,0 +1,7 @@
+@import "../../node_modules/animate.css/animate";
+
+.jumbotron {
+    p.animated {
+       @include animation-delay(.5s); 
+    }
+}

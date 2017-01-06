@@ -4,11 +4,11 @@ import 'tether';
 import 'bootstrap/dist/js/bootstrap';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, IndexRoute, Route, Link, Redirect, browserHistory } from "react-router";
-import { App } from "neal-react";
-import Homepage from './pages/homepage';
+import { Router, IndexRoute, Route, browserHistory } from 'react-router';
+import { App } from 'neal-react';
 
-const root = document.getElementById('root');
+import { ContentProvider } from './components/ContentProvider';
+import Homepage from './pages/Homepage';
 
 class MainApp extends React.Component {
   render() {
@@ -24,11 +24,26 @@ class MainApp extends React.Component {
   }
 }
 
-ReactDOM.render((
-  <Router history={ browserHistory }>
-    <Route path="/" component={ MainApp } history={ browserHistory }>
-      <IndexRoute name="home" component={ Homepage }/>
-      <Route path="*" component={ Homepage }/>
-    </Route>
-  </Router>
-), document.getElementById("root"));
+function syncContentFromContentful() {
+  return ContentProvider.connect({
+    space: process.env.CONTENTFUL_SPACE,
+    accessToken: process.env.CONTENTFUL_ACCESS_TOKEN,
+    locale: 'en-GB'
+  });
+}
+
+
+Promise.all([
+  syncContentFromContentful()
+]).then(() => {
+
+  ReactDOM.render((
+    <Router history={ browserHistory }>
+      <Route path="/" component={ MainApp } history={ browserHistory }>
+        <IndexRoute name="home" component={ Homepage } />
+        <Route path="*" component={ Homepage } />
+      </Route>
+    </Router>
+  ), document.getElementById('root'));
+
+});

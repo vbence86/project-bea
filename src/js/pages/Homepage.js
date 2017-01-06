@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
+import { ContentProvider } from '../components/ContentProvider';
 import {
   CustomerQuote, CustomerQuotes,
   DropdownMenu, DropdownToggle,
@@ -17,7 +18,7 @@ import {
   TeamMember,
 } from 'neal-react';
 
-const brandName = 'SamplePage';
+const brandName = 'Test';
 const brand = <span>{brandName}</span>;
 
 const onSignup = ({ name: name, email: email, password: password }) => Stripe.StripeHandler.open({
@@ -70,11 +71,20 @@ const pricingPlan3 = Object.assign({}, pricingPlan2, {
 
 export default class Homepage extends React.Component {
 
+  constructor(props) {
+    super(props);
+
+    const business = ContentProvider.get('business');  
+    this.state = {
+      business: business
+    };
+  }
+
+
   render() {
     return (
       <Page>
-
-        <Navbar brand={brand}>
+        <Navbar brand={this.state.business.title}>
           <NavItem><Link to="Home" className="nav-link">Home</Link></NavItem>
           <NavItem dropdown={true}>
             <DropdownToggle>Github</DropdownToggle>
@@ -91,8 +101,8 @@ export default class Homepage extends React.Component {
 
         <Hero backgroundImage="img/hero-bg-01.jpg"
           className="text-xs-center">
-          <h1 className="display-4"> Declarative Landing Pages for React.js </h1>
-          <p className="lead">Build a beautiful landing page in less than an hour.
+          <h1 className="display-4 animated fadeInDown"> Declarative Landing Pages for React.js </h1>
+          <p className="lead animated fadeInDown">Build a beautiful landing page in less than an hour.
             No more redundant code. Easily extensible.</p>
           <p>
             <a href="https://github.com/dennybritz/neal-react" target="_blank" className="btn btn-white">
