@@ -1,3 +1,6 @@
+$jumbotron-height: 700px;
+$video-width: 1400px;
+$video-height: 700px;
 
 .hero-video {
     width: 100%;
@@ -11,13 +14,14 @@
     margin-bottom: 5rem;
 
     &.jumbotron {
-    	padding: 12.5rem 10rem;
+    	padding: 5rem;
+        height: $jumbotron-height;
     } 
 
     video {
     	position: absolute;
-	    width: 1338px;
-	    height: 800px;
+	    width: $video-width;
+	    height: $video-height;
 	    overflow: hidden;
 	    top: 50%;
 	    left: 50%;
