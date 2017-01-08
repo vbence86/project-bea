@@ -1,0 +1,26 @@
+
+.hero-video {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+
+	background-color: #263238;
+    background-size: cover;
+    color: #fff;
+    margin-bottom: 5rem;
+
+    &.jumbotron {
+    	padding: 12.5rem 10rem;
+    } 
+
+    video {
+    	position: absolute;
+	    width: 1338px;
+	    height: 800px;
+	    overflow: hidden;
+	    top: 50%;
+	    left: 50%;
+	    @include transform(translateX(-50%) translateY(-50%));
+    }
+}

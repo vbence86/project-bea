@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router';
-import { ContentProvider } from '../components/ContentProvider';
 import {
   CustomerQuote, CustomerQuotes,
   DropdownMenu, DropdownToggle,
@@ -17,9 +16,19 @@ import {
   Team,
   TeamMember,
 } from 'neal-react';
+import { ContentProvider } from '../components/ContentProvider';
+import HeroVideo from '../components/HeroVideo';
 
 const brandName = 'Test';
 const brand = <span>{brandName}</span>;
+
+const heroVideo = {
+  poster: '/resources/images/test.jpg',
+  source: {
+    url: '/resources/videos/test.mp4',
+    type: 'video/mp4'
+  }
+};
 
 const onSignup = ({ name: name, email: email, password: password }) => Stripe.StripeHandler.open({
   name: 'Stripe Integration Included',
@@ -99,8 +108,7 @@ export default class Homepage extends React.Component {
           </NavItem>
         </Navbar>
 
-        <Hero backgroundImage="img/hero-bg-01.jpg"
-          className="text-xs-center">
+        <HeroVideo {... heroVideo}>
           <h1 className="display-4 animated fadeInDown"> Declarative Landing Pages for React.js </h1>
           <p className="lead animated fadeInDown">Build a beautiful landing page in less than an hour.
             No more redundant code. Easily extensible.</p>
@@ -109,7 +117,7 @@ export default class Homepage extends React.Component {
               Get it on Github
             </a>
           </p>
-        </Hero>
+        </HeroVideo>
 
         <Section className="subhero">
           <ImageList centered>

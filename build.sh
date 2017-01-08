@@ -15,8 +15,11 @@ DIR_SASS=scss
 DIR_CSS=css
 DIR_FONTS=fonts
 
+RESOURCES=resources
+
 cp -r $SOURCE/$DIR_SASS $DIST/$DIR_CSS
 cp -r $SOURCE/$DIR_FONTS $DIST/$DIR_FONTS
+cp -r $RESOURCES $DIST/$RESOURCES
 
 echo "----------------------------------------------";
 echo "Build successful!";
