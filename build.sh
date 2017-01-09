@@ -14,8 +14,7 @@ export NODE_ENV=production
 export CONTENTFUL_SPACE=v9u7v7jawm36
 export CONTENTFUL_ACCESS_TOKEN=a15a60af447bb88662e7eed5dc8ed2042d623307cfbda6b9c1e7aa849ca15ef7
 
-rm -R $DIST
-
+if [ -d "$DIST" ]; then rm -Rf $DIST; fi
 
 npm run lint
 webpack --bail
