@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router';
-import { ContentProvider } from '../components/ContentProvider';
 import {
   CustomerQuote, CustomerQuotes,
   DropdownMenu, DropdownToggle,
@@ -17,9 +16,19 @@ import {
   Team,
   TeamMember,
 } from 'neal-react';
+import { ContentProvider } from '../components/ContentProvider';
+import HeroVideo from '../components/HeroVideo';
 
 const brandName = 'Test';
 const brand = <span>{brandName}</span>;
+
+const heroVideo = {
+  poster: '/resources/images/test.jpg',
+  source: {
+    url: '/resources/videos/test.mp4',
+    type: 'video/mp4'
+  }
+};
 
 const onSignup = ({ name: name, email: email, password: password }) => Stripe.StripeHandler.open({
   name: 'Stripe Integration Included',
@@ -72,14 +81,13 @@ const pricingPlan3 = Object.assign({}, pricingPlan2, {
 export default class Homepage extends React.Component {
 
   constructor(props) {
-    super(props);
-
-    const business = ContentProvider.get('business');  
+    super(props); 
     this.state = {
-      business: business
+      business: ContentProvider.get('business'),
+      homepage: ContentProvider.get('homepage')
     };
+    console.log(this.state);
   }
-
 
   render() {
     return (
@@ -99,25 +107,18 @@ export default class Homepage extends React.Component {
           </NavItem>
         </Navbar>
 
-        <Hero backgroundImage="img/hero-bg-01.jpg"
-          className="text-xs-center">
-          <h1 className="display-4 animated fadeInDown"> Declarative Landing Pages for React.js </h1>
-          <p className="lead animated fadeInDown">Build a beautiful landing page in less than an hour.
-            No more redundant code. Easily extensible.</p>
+        <HeroVideo {... heroVideo}>
+          <h1 className="display-4 animated fadeInDown">{this.state.homepage.missionStatement}</h1>
+          <p className="lead animated fadeInDown">{this.state.homepage.elevatorPitch}</p>
           <p>
-            <a href="https://github.com/dennybritz/neal-react" target="_blank" className="btn btn-white">
-              Get it on Github
+            <a data-toggle="modal" data-target="#request-appointment-modal" className="btn btn-white">
+              {this.state.homepage.mainCta.title}
             </a>
           </p>
-        </Hero>
+        </HeroVideo>
 
-        <Section className="subhero">
-          <ImageList centered>
-            <ImageListItem src="img/press/cnn-logo.png" url="http://www.cnn.com" />
-            <ImageListItem src="img/press/forbes-logo.png" url="http://forbes.com/" />
-            <ImageListItem src="img/press/theverge-logo.png" url="http://www.theverge.com/" />
-            <ImageListItem src="img/press/techcrunch-logo.jpg" url="http://techcrunch.com/" />
-          </ImageList>
+        <Section className="subhero gray">
+          <h3>{ this.state.homepage.subHeroTitle }</h3>
         </Section>
 
         <Section>
@@ -142,20 +143,12 @@ export default class Homepage extends React.Component {
           </HorizontalSplit>
         </Section>        
 
-        <Section heading="Inline and Modal Signup components" className="gray">
-          <p>Use these components to capture user data, display a payment dialog and/or send them to your own backend for handling. Of course, you could also just use a Typeform to collect user emails. </p>
-          <SignupInline onSubmit={onSignup} />
-          <SignupModal modalId="signup-modal" onSubmit={onSignup}>
-            <div>
-              <SignupModal.Input name="name" required label="Name" placeholder="Name" />
-              <SignupModal.Input type="email" required name="email" label="Email" placeholder="Email" />
-              <SignupModal.Input required name="age" label="Age" placeholder="Age" />
-              <SignupModal.Input type="password" required name="password" label="Password" placeholder="Password" />
-            </div>
-          </SignupModal>
+        <Section className="inline-cta gray">
           <p>
-            <a className="btn btn-primary btn-ghost" data-toggle="modal" data-target="#signup-modal">Show Signup modal</a>
-          </p>
+            <a data-toggle="modal" data-target="#request-appointment-modal" className="btn btn-ghost btn-primary btn-lg">
+              {this.state.homepage.mainCta.title}
+            </a>
+          </p>          
         </Section>
 
         <Section>
@@ -194,11 +187,20 @@ export default class Homepage extends React.Component {
           </Team>
         </Section>
 
-        <Footer brandName={brandName}
+        <SignupModal modalId="request-appointment-modal" onSubmit={onSignup}>
+          <div>
+            <SignupModal.Input name="name" required label="Name" placeholder="Name" />
+            <SignupModal.Input type="email" required name="email" label="Email" placeholder="Email" />
+            <SignupModal.Input required name="age" label="Age" placeholder="Age" />
+            <SignupModal.Input type="password" required name="password" label="Password" placeholder="Password" />
+          </div>
+        </SignupModal>
+
+        <Footer brandName={this.state.business.title}
           facebookUrl="http://www.facebook.com"
           twitterUrl="http://www.twitter.com/dennybritz"
           githubUrl="https://github.com/dennybritz/neal-react"
-          address={businessAddress} />
+          address={this.state.business.address} />
       </Page>
     );
   }

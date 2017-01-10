@@ -1,0 +1,31 @@
+
+.neal-navbar {
+
+  .container {
+    margin-left: 0;
+  }
+
+  .navbar-brand {
+    float: left;
+  }
+
+  .neal-footer-social {
+    flex-direction: row;
+  }
+}
+
+.subhero {
+  text-align: center;
+  h3 {
+    line-height: 2.5;
+  }
+}
+
+.btn {
+  cursor: pointer;
+}
+
+.neal-section.inline-cta {
+  padding: 2rem;
+  text-align: center;
+}

@@ -1,6 +1,14 @@
-/* library files */
-@import "../../node_modules/bourbon/app/assets/stylesheets/_bourbon.scss";
+/// LIBRARIES
+@import "../../node_modules/bourbon/app/assets/stylesheets/_bourbon";
 @import "../../node_modules/neal-react/css/base";
 
-/* user files */
-@import "animations.scss";
+// SASS HELPERS
+@import "variables";
+@import "mixins";
+
+/// OVERRIDES
+@import "styles";
+
+/// CUSTOM ELEMENTS
+@import "animations";
+@import "hero-video";
