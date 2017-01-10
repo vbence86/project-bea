@@ -17,7 +17,7 @@ export CONTENTFUL_ACCESS_TOKEN=a15a60af447bb88662e7eed5dc8ed2042d623307cfbda6b9c
 if [ -d "$DIST" ]; then rm -Rf $DIST; fi
 
 npm run lint
-webpack --bail
+webpack -p --bail
 
 cp -r $SOURCE/$DIR_SASS $DIST/$DIR_CSS
 cp -r $SOURCE/$DIR_FONTS $DIST/$DIR_FONTS

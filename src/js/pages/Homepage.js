@@ -81,14 +81,13 @@ const pricingPlan3 = Object.assign({}, pricingPlan2, {
 export default class Homepage extends React.Component {
 
   constructor(props) {
-    super(props);
-
-    const business = ContentProvider.get('business');  
+    super(props); 
     this.state = {
-      business: business
+      business: ContentProvider.get('business'),
+      homepage: ContentProvider.get('homepage')
     };
+    console.log(this.state);
   }
-
 
   render() {
     return (
@@ -109,12 +108,11 @@ export default class Homepage extends React.Component {
         </Navbar>
 
         <HeroVideo {... heroVideo}>
-          <h1 className="display-4 animated fadeInDown"> Declarative Landing Pages for React.js </h1>
-          <p className="lead animated fadeInDown">Build a beautiful landing page in less than an hour.
-            No more redundant code. Easily extensible.</p>
+          <h1 className="display-4 animated fadeInDown">{this.state.homepage.missionStatement}</h1>
+          <p className="lead animated fadeInDown">{this.state.homepage.elevatorPitch}</p>
           <p>
-            <a href="https://github.com/dennybritz/neal-react" target="_blank" className="btn btn-white">
-              Get it on Github
+            <a data-toggle="modal" data-target="#request-appointment-modal" className="btn btn-white">
+              {this.state.homepage.mainCta.title}
             </a>
           </p>
         </HeroVideo>
@@ -202,11 +200,20 @@ export default class Homepage extends React.Component {
           </Team>
         </Section>
 
-        <Footer brandName={brandName}
+        <SignupModal modalId="request-appointment-modal" onSubmit={onSignup}>
+          <div>
+            <SignupModal.Input name="name" required label="Name" placeholder="Name" />
+            <SignupModal.Input type="email" required name="email" label="Email" placeholder="Email" />
+            <SignupModal.Input required name="age" label="Age" placeholder="Age" />
+            <SignupModal.Input type="password" required name="password" label="Password" placeholder="Password" />
+          </div>
+        </SignupModal>
+
+        <Footer brandName={this.state.business.title}
           facebookUrl="http://www.facebook.com"
           twitterUrl="http://www.twitter.com/dennybritz"
           githubUrl="https://github.com/dennybritz/neal-react"
-          address={businessAddress} />
+          address={this.state.business.address} />
       </Page>
     );
   }

@@ -2,6 +2,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
+  devtool: 'source-map',
   module: {
     loaders: [
       {
@@ -34,7 +35,8 @@ module.exports = {
         'CONTENTFUL_SPACE': JSON.stringify(process.env.CONTENTFUL_SPACE),
         'CONTENTFUL_ACCESS_TOKEN': JSON.stringify(process.env.CONTENTFUL_ACCESS_TOKEN)
       }
-    }),    
+    }),
+    new webpack.optimize.OccurenceOrderPlugin(),       
     new webpack.optimize.UglifyJsPlugin({
         minimize: true,
         compress: {
@@ -43,8 +45,7 @@ module.exports = {
     new webpack.ProvidePlugin({
         $: 'jquery',
         jQuery: 'jquery',
-        'window.jQuery': 'jquery',
-        'window.Tether': 'tether'
+        'window.jQuery': 'jquery'
     }),
     new HtmlWebpackPlugin({
       template: 'src/app.pug'

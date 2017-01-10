@@ -1,21 +1,29 @@
 'use strict';
-const contentful = require('contentful');
+import { default as contentful } from 'contentful';
 
 const DEFAULT_LOCALE = 'en-GB';
 const content = {};
 let client;
 
+function processFields(entry, locale) {
+  let fields = {};
+  Object.keys(entry.fields).forEach(key => {
+    const obj = entry.fields[key][locale];
+    if (obj.sys) {
+      fields[key] = processFields(obj, locale);
+    } else {
+      fields[key] = obj;
+    }
+  });
+  return fields;
+}
+
 function processContent(entries, locale) {
   if (!entries || !entries.forEach) return;
   entries.forEach(entry => {
-    let fields = {};
-    Object.keys(entry.fields).forEach(key => {
-      fields[key] = entry.fields[key][locale];
-    });
-    content[entry.sys.contentType.sys.id] = fields;
+    content[entry.sys.contentType.sys.id] = processFields(entry, locale);
   });
 }
-
 
 export let ContentProvider = {
 
