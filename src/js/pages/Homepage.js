@@ -4,23 +4,18 @@ import {
   CustomerQuote, CustomerQuotes,
   DropdownMenu, DropdownToggle,
   Footer,
-  Hero,
   HorizontalSplit,
-  ImageList, ImageListItem,
   Navbar, NavItem,
   Page,
   PricingPlan, PricingTable,
   Section,
-  SignupInline, SignupModal,
+  SignupModal,
   Stripe,
   Team,
   TeamMember,
 } from 'neal-react';
 import { ContentProvider } from '../components/ContentProvider';
 import HeroVideo from '../components/HeroVideo';
-
-const brandName = 'Test';
-const brand = <span>{brandName}</span>;
 
 const heroVideo = {
   poster: '/resources/images/test.jpg',
@@ -30,6 +25,14 @@ const heroVideo = {
   }
 };
 
+const renderProducts(productList) {
+  if (!productList) return;
+  return (
+    for (let i = productList.length - 1; i >= 0; i--) {
+    }
+  );
+}
+
 const onSignup = ({ name: name, email: email, password: password }) => Stripe.StripeHandler.open({
   name: 'Stripe Integration Included',
   description: 'Like this? Donate $5 <3',
@@ -37,15 +40,6 @@ const onSignup = ({ name: name, email: email, password: password }) => Stripe.St
   email: email,
   amount: 500,
 });
-
-const businessAddress = (
-  <address>
-    <strong>{brandName}</strong><br />
-    1337 Market Street, Suite 1337<br />
-    San Francisco, CA 94103<br />
-    +1 (123) 456-7890
-  </address>
-);
 
 const pricingPlan1 = {
   name: 'Personal',
@@ -124,21 +118,16 @@ export default class Homepage extends React.Component {
         <Section>
           <HorizontalSplit padding="md">
             <div>
-              <p className="lead">Batteries Included</p>
-              <p>Neal is based on <a href="http://v4-alpha.getbootstrap.com/" target="_blank">Bootstrap 4</a> and ships with navbar, hero, footer, sections, horizontal split, pricing tables, customer quotes and other components you need for a landing page. No more repetitive coding! Oh, and it's easy to extend.</p>
+              <p className="lead">{ this.state.homepage.whoSection.title }</p>
+              <p>{ this.state.homepage.whoSection.text }</p>
             </div>
             <div>
-              <p className="lead">Third-Party Integrations</p>
-              <p>External integrations like &nbsp;
-                <a href="http://www.google.com/analytics/">Google Analytics</a>,&nbsp;
-                <a href="https://segment.com/">Segment</a>,&nbsp;
-                <a href="https://stripe.com/">Stripe</a> and&nbsp;
-                <a href="http://typeform.com">Typeform</a> are included.
-                No more copying & pasting integration code, all you need is your API keys. We automatically track events when visitors navigate to different parts of your page.</p>
+              <p className="lead">{ this.state.homepage.whySection.title }</p>
+              <p>{ this.state.homepage.whySection.text }</p>
             </div>
             <div>
-              <p className="lead">Serverless Deployment</p>
-              <p>Because you are relying on react.js and third-party integration you don't need a server to host your landing page. Simply upload it to an Amazon S3 bucket, enable website hosting, and it's ready to go!</p>
+              <p className="lead">{ this.state.homepage.howSection.title }</p>
+              <p>{ this.state.homepage.howSection.text }</p>
             </div>
           </HorizontalSplit>
         </Section>        
