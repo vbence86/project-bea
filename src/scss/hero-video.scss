@@ -18,10 +18,6 @@ $video-height: 700px;
       height: $jumbotron-height;
       text-align: center;
 
-      a {
-        cursor: pointer;
-      }
-
       @include mobile {
         padding: 4rem 1rem;
         

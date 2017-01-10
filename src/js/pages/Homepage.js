@@ -117,13 +117,8 @@ export default class Homepage extends React.Component {
           </p>
         </HeroVideo>
 
-        <Section className="subhero">
-          <ImageList centered>
-            <ImageListItem src="img/press/cnn-logo.png" url="http://www.cnn.com" />
-            <ImageListItem src="img/press/forbes-logo.png" url="http://forbes.com/" />
-            <ImageListItem src="img/press/theverge-logo.png" url="http://www.theverge.com/" />
-            <ImageListItem src="img/press/techcrunch-logo.jpg" url="http://techcrunch.com/" />
-          </ImageList>
+        <Section className="subhero gray">
+          <h3>{ this.state.homepage.subHeroTitle }</h3>
         </Section>
 
         <Section>
@@ -148,20 +143,12 @@ export default class Homepage extends React.Component {
           </HorizontalSplit>
         </Section>        
 
-        <Section heading="Inline and Modal Signup components" className="gray">
-          <p>Use these components to capture user data, display a payment dialog and/or send them to your own backend for handling. Of course, you could also just use a Typeform to collect user emails. </p>
-          <SignupInline onSubmit={onSignup} />
-          <SignupModal modalId="signup-modal" onSubmit={onSignup}>
-            <div>
-              <SignupModal.Input name="name" required label="Name" placeholder="Name" />
-              <SignupModal.Input type="email" required name="email" label="Email" placeholder="Email" />
-              <SignupModal.Input required name="age" label="Age" placeholder="Age" />
-              <SignupModal.Input type="password" required name="password" label="Password" placeholder="Password" />
-            </div>
-          </SignupModal>
+        <Section className="inline-cta gray">
           <p>
-            <a className="btn btn-primary btn-ghost" data-toggle="modal" data-target="#signup-modal">Show Signup modal</a>
-          </p>
+            <a data-toggle="modal" data-target="#request-appointment-modal" className="btn btn-ghost btn-primary btn-lg">
+              {this.state.homepage.mainCta.title}
+            </a>
+          </p>          
         </Section>
 
         <Section>
