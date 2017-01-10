@@ -8,7 +8,7 @@ module.exports = {
       {
         test: /\.jsx?$/,
         exclude: /(node_modules|neal-react)/,
-        loaders: ['babel']
+        loaders: ['babel-loader']
       },
       {
         test: /\.pug$/,
