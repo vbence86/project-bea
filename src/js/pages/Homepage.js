@@ -7,7 +7,6 @@ import {
   HorizontalSplit,
   Navbar, NavItem,
   Page,
-  PricingPlan, PricingTable,
   Section,
   SignupModal,
   Stripe,
@@ -16,6 +15,7 @@ import {
 } from 'neal-react';
 import { ContentProvider } from '../components/ContentProvider';
 import HeroVideo from '../components/HeroVideo';
+import { ProductTable, ProductPlan } from '../components/ProductPlan';
 
 const heroVideo = {
   poster: '/resources/images/test.jpg',
@@ -24,14 +24,6 @@ const heroVideo = {
     type: 'video/mp4'
   }
 };
-
-const renderProducts(productList) {
-  if (!productList) return;
-  return (
-    for (let i = productList.length - 1; i >= 0; i--) {
-    }
-  );
-}
 
 const onSignup = ({ name: name, email: email, password: password }) => Stripe.StripeHandler.open({
   name: 'Stripe Integration Included',
@@ -81,6 +73,37 @@ export default class Homepage extends React.Component {
       homepage: ContentProvider.get('homepage')
     };
     console.log(this.state);
+  }
+
+  renderProductList() {
+    const products = this.state.homepage.productList.map(item => {
+
+      const pricing = {
+        name: item.title,
+        description: item.description,
+        price: item.prize,
+        buttonText: item.ctaLabel,
+        features: (() => {
+          const features = {};
+          if (item.features && item.features.length) {
+            item.features.forEach(feature => {
+              features[feature] = true;
+            });
+          }
+          return features;
+        })()
+      };
+
+      return (
+        <ProductPlan {... pricing} />
+      );
+    });
+
+    return (
+      <ProductTable>   
+        { products }       
+      </ProductTable>
+    );
   }
 
   render() {
@@ -141,11 +164,9 @@ export default class Homepage extends React.Component {
         </Section>
 
         <Section>
-          <PricingTable>
-            <PricingPlan {... pricingPlan1} />
-            <PricingPlan {... pricingPlan2} />
-            <PricingPlan {... pricingPlan3} />
-          </PricingTable>
+          {(() => {
+            return this.renderProductList();
+          })()}
         </Section>
 
         <Section>
