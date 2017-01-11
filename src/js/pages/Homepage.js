@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
 import {
-  CustomerQuote, CustomerQuotes,
   DropdownMenu, DropdownToggle,
   Footer,
   HorizontalSplit,
@@ -16,6 +15,7 @@ import {
 import { ContentProvider } from '../components/ContentProvider';
 import HeroVideo from '../components/HeroVideo';
 import { ProductTable, ProductPlan } from '../components/ProductPlan';
+import { CustomerFeedbacks, CustomerFeedback } from '../components/CustomerFeedback';
 
 const heroVideo = {
   poster: '/resources/images/test.jpg',
@@ -31,37 +31,6 @@ const onSignup = ({ name: name, email: email, password: password }) => Stripe.St
   panelLabel: 'Donate {{amount}}',
   email: email,
   amount: 500,
-});
-
-const pricingPlan1 = {
-  name: 'Personal',
-  description: 'Describe your plans with easy-to-use pricing tables. Each plan provides callbacks to handle visitor clicks.',
-  price: '$99',
-  features: {
-    'Describe pricing plans as JSON': true,
-    'Features can be active/inactive': true,
-    'Works on mobile': true,
-    'Custom callbacks': true,
-    'Extra Feature 1': false,
-    'Extra Feature 2': false,
-  },
-  onClick: onSignup,
-};
-
-const pricingPlan2 = Object.assign({}, pricingPlan1, {
-  price: '$499',
-  name: 'Startup',
-  features: Object.assign({}, pricingPlan1.features, {
-    'Extra Feature 1': true,
-  }),
-});
-
-const pricingPlan3 = Object.assign({}, pricingPlan2, {
-  price: '$999',
-  name: 'Enterprise',
-  features: Object.assign({}, pricingPlan2.features, {
-    'Extra Feature 2': true,
-  }),
 });
 
 export default class Homepage extends React.Component {
@@ -93,7 +62,6 @@ export default class Homepage extends React.Component {
           return features;
         })()
       };
-
       return (
         <ProductPlan {... pricing} />
       );
@@ -103,6 +71,27 @@ export default class Homepage extends React.Component {
       <ProductTable>   
         { products }       
       </ProductTable>
+    );
+  }
+
+  renderFeedbackList() {
+
+    const feedbacks = this.state.homepage.feedbacks.map(item => {
+      const props = {
+        text: item.text,
+        rating: item.rating,        
+        name: item.customerName,
+        imageUrl: 'http:' + item.customerPortrait.file.url
+      }
+      return (
+        <CustomerFeedback {... props} />
+      );
+    });
+
+    return (
+      <CustomerFeedbacks>
+        { feedbacks }
+      </CustomerFeedbacks>
     );
   }
 
@@ -164,23 +153,11 @@ export default class Homepage extends React.Component {
         </Section>
 
         <Section>
-          {(() => {
-            return this.renderProductList();
-          })()}
+          { this.renderProductList() }
         </Section>
 
         <Section>
-          <CustomerQuotes>
-            <CustomerQuote name="Paul Graham" title="YC" imageUrl="img/people/paulgraham.jpg">
-              <p>What I tell founders is not to sweat the business model too much at first. The most important task at first is to build something people want. If you don't do that, it won't matter how clever your business model is.</p>
-            </CustomerQuote>
-            <CustomerQuote name="Elon Musk" imageUrl="img/people/elonmusk.jpg">
-              <p>I came to the conclusion that we should aspire to increase the scope and scale of human consciousness in order to better understand what questions to ask. Really, the only thing that makes sense is to strive for greater collective enlightenment.</p>
-            </CustomerQuote>
-            <CustomerQuote name="Reid Hoffman" title="Linkedin" imageUrl="img/people/reidhoffman.jpg">
-              <p>If you are not embarrassed by the first version of your product, you've launched too late.</p>
-            </CustomerQuote>
-          </CustomerQuotes>
+          { this.renderFeedbackList() }
         </Section>
 
         <Section>
