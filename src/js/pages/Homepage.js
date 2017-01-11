@@ -95,6 +95,30 @@ export default class Homepage extends React.Component {
     );
   }
 
+  renderMemberList() {
+
+    const members = this.state.homepage.memberList.map(member => {
+      const props = {
+        name: member.name,
+        title: member.title,
+        imageUrl: 'http:' + member.picture.file.url
+      }
+      return (
+        <TeamMember {... props}>
+          { member.introduction }
+        </TeamMember>
+      );
+    });
+
+    return (
+      <Team>
+        { members }
+      </Team>
+    );
+
+
+  }
+
   render() {
     return (
       <Page>
@@ -161,17 +185,7 @@ export default class Homepage extends React.Component {
         </Section>
 
         <Section>
-          <Team>
-            <TeamMember name="Member 1" title="Co-founder" imageUrl="img/people/grumpycat.jpg">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-            </TeamMember>
-            <TeamMember name="Member 2" title="Co-founder" imageUrl="img/people/boo.jpg">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-            </TeamMember>
-            <TeamMember name="Member 3" title="Co-founder" imageUrl="img/people/panda.jpg">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-            </TeamMember>
-          </Team>
+          { this.renderMemberList() }
         </Section>
 
         <SignupModal modalId="request-appointment-modal" onSubmit={onSignup}>
