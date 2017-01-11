@@ -1,0 +1,22 @@
+.neal-customer-quote-img {
+  width: 6rem;
+  height: 6rem;
+  background-size: cover;
+  background-origin: border-box;
+  background-position: 50%;
+  border-radius: 50%;
+  /* float: left; */
+  margin-right: 1rem;
+  display: inline-block;
+  vertical-align: middle;    
+}
+
+.neal-customer-quote-profile {
+  text-align: center;
+}
+
+.neal-customer-quote-quote .ratings {
+  margin-bottom: 0;
+  text-align: right;
+  font-size: 1.5rem;
+}
