@@ -204,7 +204,6 @@ export default class Homepage extends React.Component {
             <SignupModal.Input name="name" required label="Name" placeholder="Name" />
             <SignupModal.Input type="email" required name="email" label="Email" placeholder="Email" />
             <SignupModal.Input required name="age" label="Age" placeholder="Age" />
-            <SignupModal.Input type="password" required name="password" label="Password" placeholder="Password" />
           </div>
         </SignupModal>
 
@@ -217,7 +216,7 @@ export default class Homepage extends React.Component {
           phone1={this.state.business.phoneNumber}
           phone2={this.state.business.phoneNumberOptional}
           address={this.state.business.address} />
-          
+
       </Page>
     );
   }

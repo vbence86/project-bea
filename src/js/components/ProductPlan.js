@@ -24,10 +24,6 @@ export class ProductPlan extends React.Component {
     onClick: React.PropTypes.func,
   };
 
-  static defaultProps = {
-    buttonText: 'Sign up',
-  };
-
   render() {
     return (
       <div className="card">
@@ -38,12 +34,6 @@ export class ProductPlan extends React.Component {
           <div className="text-xs-center neal-pricing-plan-price">
             <h4 className="card-title neal-pricing-plan-price-amount">{this.props.price}</h4>
           </div>
-          <p className="card-text text-xs-center neal-pricing-plan-description">{this.props.description}</p>
-          <p className="card-text text-xs-center neal-pricing-plan-action">
-            <button className="btn btn-ghost btn-primary btn-lg" onClick={this.props.onClick}>
-              {this.props.buttonText}
-            </button>
-          </p>
         </div>
         <div className="card-block neal-pricing-plan-features">
           <ul className="list-group list-group-flush">
@@ -53,6 +43,13 @@ export class ProductPlan extends React.Component {
               return <li key={idx} className={_className}>{name}</li>;
             })}
           </ul>
+        </div>
+        <div>
+          <p className="card-text text-xs-center neal-pricing-plan-action">
+            <button className="btn btn-ghost btn-primary btn-lg" onClick={this.props.onClick}>
+              {this.props.buttonText}
+            </button>
+          </p>
         </div>
       </div>
     );
