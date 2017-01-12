@@ -44,9 +44,29 @@ export default class Homepage extends React.Component {
     console.log(this.state);
   }
 
+  renderHeaderNavigation() {
+    const menus = this.state.homepage.headerNavigation.map(item => {
+      const props = {
+        title: item.title,
+        url: item.url
+      };
+      return (
+        <NavItem>
+          <Link className="nav-link" to={ props.url }>{ props.title }</Link>
+        </NavItem>
+      );
+    });
+
+    return (
+      <Navbar brand={this.state.business.title}>
+        { menus }
+      </Navbar>
+    );
+
+  }
+
   renderProductList() {
     const products = this.state.homepage.productList.map(item => {
-
       const pricing = {
         name: item.title,
         description: item.description,
@@ -122,20 +142,8 @@ export default class Homepage extends React.Component {
   render() {
     return (
       <Page>
-        <Navbar brand={this.state.business.title}>
-          <NavItem><Link to="Home" className="nav-link">Home</Link></NavItem>
-          <NavItem dropdown={true}>
-            <DropdownToggle>Github</DropdownToggle>
-            <DropdownMenu>
-              <a href="https://github.com/dennybritz/neal-react" className="dropdown-item" target="_blank">
-                Neal React
-              </a>
-              <a href="https://github.com/dennybritz/neal-sample" className="dropdown-item" target="_blank">
-                Sample Page
-              </a>
-            </DropdownMenu>
-          </NavItem>
-        </Navbar>
+        
+        { this.renderHeaderNavigation() }
 
         <HeroVideo {... heroVideo}>
           <h1 className="display-4 animated fadeInDown">{this.state.homepage.missionStatement}</h1>
