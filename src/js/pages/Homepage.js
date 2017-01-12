@@ -1,8 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
 import {
-  DropdownMenu, DropdownToggle,
-  Footer,
   HorizontalSplit,
   Navbar, NavItem,
   Page,
@@ -16,6 +14,7 @@ import { ContentProvider } from '../components/ContentProvider';
 import HeroVideo from '../components/HeroVideo';
 import { ProductTable, ProductPlan } from '../components/ProductPlan';
 import { CustomerFeedbacks, CustomerFeedback } from '../components/CustomerFeedback';
+import { Footer } from '../components/Footer';
 
 const heroVideo = {
   poster: '/resources/images/test.jpg',
@@ -100,8 +99,10 @@ export default class Homepage extends React.Component {
       const props = {
         text: item.text,
         rating: item.rating,        
-        name: item.customerName,
-        imageUrl: 'http:' + item.customerPortrait.file.url
+        name: item.customerName
+      };
+      if (item.customerPortrait && item.customerPortrait.file) {
+        props.imageUrl = 'http:' + item.customerPortrait.file.url;
       }
       return (
         <CustomerFeedback {... props} />
@@ -121,7 +122,9 @@ export default class Homepage extends React.Component {
       const props = {
         name: member.name,
         title: member.title,
-        imageUrl: 'http:' + member.picture.file.url
+      };
+      if (member.picture && member.picture.file) {
+        props.imageUrl = 'http:' + member.picture.file.url;
       }
       return (
         <TeamMember {... props}>
@@ -206,10 +209,15 @@ export default class Homepage extends React.Component {
         </SignupModal>
 
         <Footer brandName={this.state.business.title}
-          facebookUrl="http://www.facebook.com"
-          twitterUrl="http://www.twitter.com/dennybritz"
-          githubUrl="https://github.com/dennybritz/neal-react"
+          facebookUrl={this.state.business.facebookUrl}
+          twitterUrl={this.state.business.twitterUrl}
+          skype={this.state.business.skype}
+          whatsup={this.state.business.whatsup}
+          email={this.state.business.emailAddress}
+          phone1={this.state.business.phoneNumber}
+          phone2={this.state.business.phoneNumberOptional}
           address={this.state.business.address} />
+          
       </Page>
     );
   }

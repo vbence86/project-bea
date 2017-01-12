@@ -29,3 +29,29 @@
   padding: 2rem;
   text-align: center;
 }
+
+.neal-footer {
+  p {
+    margin-bottom: 0;
+
+    &.neal-footer-copyright {
+      margin-bottom: 0.75rem;
+    }
+  }
+
+  .navbar-nav.neal-footer-social {
+    flex-direction: row;
+    -ms-flex-direction: row;
+  }
+
+  .social-icons-container {
+    width: 67%;
+    margin: 2rem auto 0;    
+  }
+
+}
+
+.skype.neal-footer-social-icon i.fa-stack-2x { color: #12A5F4; }
+.whatsapp.neal-footer-social-icon i.fa-stack-2x { color: #25D366; }
+.google.neal-footer-social-icon i.fa-stack-2x { color: #d34836; }
+
