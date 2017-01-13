@@ -15,6 +15,7 @@ import HeroVideo from '../components/HeroVideo';
 import { ProductTable, ProductPlan } from '../components/ProductPlan';
 import { CustomerFeedbacks, CustomerFeedback } from '../components/CustomerFeedback';
 import { Footer } from '../components/Footer';
+import '../components/SignupModal.Textarea';
 
 const heroVideo = {
   poster: '/resources/images/test.jpg',
@@ -138,8 +139,26 @@ export default class Homepage extends React.Component {
         { members }
       </Team>
     );
+  }
 
-
+  renderRequestModal() {
+    const content = this.state.homepage.requestAppointmentModal;
+    return (
+      <SignupModal title={content.title} buttonText={ content.buttonLabel } modalId="request-appointment-modal" onSubmit={onSignup}>
+        <div>
+          <p>
+            { content.description }
+          </p>
+        </div>
+        <div>
+          <SignupModal.Input name="name" required label={content.name} placeholder={content.name} />
+          <SignupModal.Input name="age" required label="Age" placeholder={content.age} />
+          <SignupModal.Input type="email" required name="email" label={content.email} placeholder={content.email} />
+          <SignupModal.Textarea required name="intro" label="Introduction" placeholder={content.intro} />
+          <SignupModal.Textarea required name="request" label="Request" placeholder={content.request} />
+        </div>
+      </SignupModal>
+    );
   }
 
   render() {
@@ -199,13 +218,7 @@ export default class Homepage extends React.Component {
           { this.renderMemberList() }
         </Section>
 
-        <SignupModal modalId="request-appointment-modal" onSubmit={onSignup}>
-          <div>
-            <SignupModal.Input name="name" required label="Name" placeholder="Name" />
-            <SignupModal.Input type="email" required name="email" label="Email" placeholder="Email" />
-            <SignupModal.Input required name="age" label="Age" placeholder="Age" />
-          </div>
-        </SignupModal>
+        { this.renderRequestModal() }
 
         <Footer brandName={this.state.business.title}
           facebookUrl={this.state.business.facebookUrl}
