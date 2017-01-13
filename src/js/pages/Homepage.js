@@ -1,3 +1,4 @@
+/* global $ */
 import React from 'react';
 import { Link } from 'react-router';
 import {
@@ -142,12 +143,17 @@ export default class Homepage extends React.Component {
   }
 
   renderRequestModal() {
+
+    function onSendRequest() {
+      $('#request-confirmation-modal').modal();
+    }
+
     const content = this.state.homepage.requestAppointmentModal;
     return (
-      <SignupModal title={content.title} buttonText={ content.buttonLabel } modalId="request-appointment-modal" onSubmit={onSignup}>
+      <SignupModal title={content.title} buttonText={content.buttonLabel} modalId="request-appointment-modal" onSubmit={onSendRequest}>
         <div>
           <p>
-            { content.description }
+            {content.description}
           </p>
         </div>
         <div>
@@ -158,6 +164,17 @@ export default class Homepage extends React.Component {
           <SignupModal.Textarea required name="request" label="Request" placeholder={content.request} />
         </div>
       </SignupModal>
+    );
+  }
+
+  renderRequestConfirmationModal() {
+    const content = this.state.homepage.requestAppointmentModal.confirmationModal;
+    return (
+      <SignupModal title={content.title} buttonText={ content.buttonLabel } modalId="request-confirmation-modal">
+        <div>
+          <p>{ content.text }</p>
+        </div>
+      </SignupModal>      
     );
   }
 
@@ -219,6 +236,7 @@ export default class Homepage extends React.Component {
         </Section>
 
         { this.renderRequestModal() }
+        { this.renderRequestConfirmationModal() }
 
         <Footer brandName={this.state.business.title}
           facebookUrl={this.state.business.facebookUrl}
