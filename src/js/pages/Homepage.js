@@ -16,6 +16,7 @@ import HeroVideo from '../components/HeroVideo';
 import { ProductTable, ProductPlan } from '../components/ProductPlan';
 import { CustomerFeedbacks, CustomerFeedback } from '../components/CustomerFeedback';
 import { Footer } from '../components/Footer';
+import PleaseWaitModal from '../components/PleaseWaitModal';
 import '../components/SignupModal.Textarea';
 
 const heroVideo = {
@@ -144,8 +145,41 @@ export default class Homepage extends React.Component {
 
   renderRequestModal() {
 
-    function onSendRequest() {
+    const $ = window.$;
+
+    function showPleaseWaitModal() {
+      $('#please-wait-modal').modal()
+    }
+
+    function hidePleaseWaitModal() {
+      $('#please-wait-modal').modal('hide');
+    }
+
+    function hideRequestAppointmentModal() {
+      $('#request-appointment-modal').modal('hide');
+    }
+
+    function happyPath() {
       $('#request-confirmation-modal').modal();
+    }
+
+    function sadPath() {
+      alert('Something went wrong!');
+    }
+
+    function onSendRequest() {
+      Promise
+        .resolve()
+        .then(hideRequestAppointmentModal)
+        .then(showPleaseWaitModal)
+        .then(() => {
+          return new Promise(resolve => {
+            setTimeout(resolve, 2000);
+          });
+        })
+        .then(hidePleaseWaitModal)
+        .then(happyPath)
+        .catch(sadPath);
     }
 
     const content = this.state.homepage.requestAppointmentModal;
@@ -161,7 +195,7 @@ export default class Homepage extends React.Component {
           <SignupModal.Input name="age" required label="Age" placeholder={content.age} />
           <SignupModal.Input type="email" required name="email" label={content.email} placeholder={content.email} />
           <SignupModal.Textarea required name="intro" label="Introduction" placeholder={content.intro} />
-          <SignupModal.Textarea required name="request" label="Request" placeholder={content.request} />
+          <SignupModal.Textarea required name="request" row="3" label="Request" placeholder={content.request} />
         </div>
       </SignupModal>
     );
@@ -175,6 +209,13 @@ export default class Homepage extends React.Component {
           <p>{ content.text }</p>
         </div>
       </SignupModal>      
+    );
+  }
+
+  renderPleaseWaitModal() {
+    const content = this.state.homepage.pleaseWaitModal;
+    return (
+      <PleaseWaitModal title="Please wait..." modalId="please-wait-modal" />   
     );
   }
 
@@ -237,6 +278,7 @@ export default class Homepage extends React.Component {
 
         { this.renderRequestModal() }
         { this.renderRequestConfirmationModal() }
+        { this.renderPleaseWaitModal() }
 
         <Footer brandName={this.state.business.title}
           facebookUrl={this.state.business.facebookUrl}
