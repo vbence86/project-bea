@@ -4,11 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node server.js",
     "build": "./build.sh",
     "lint": "eslint src/js/**/*.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "cd node_modules/neal-react && npm install"
+    "postinstall": "cd node_modules/neal-react && npm install",
+    "start": "forever start server.js -p 80",
+    "start-dev": "forever start server.js -p 3000",
+    "stop": "forever stopall"
   },
   "author": "",
   "license": "ISC",
@@ -28,8 +30,10 @@
     "eslint": "^3.12.2",
     "eslint-plugin-react": "^6.8.0",
     "express": "^4.14.0",
+    "forever": "^0.15.3",
     "html-webpack-plugin": "^2.24.1",
     "lodash": "^4.17.3",
+    "minimist": "^1.2.0",
     "neal-react": "^0.2.5",
     "node-sass": "^4.1.1",
     "pug": "^2.0.0-beta6",

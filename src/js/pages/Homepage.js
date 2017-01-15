@@ -1,8 +1,7 @@
+/* global $ */
 import React from 'react';
 import { Link } from 'react-router';
 import {
-  DropdownMenu, DropdownToggle,
-  Footer,
   HorizontalSplit,
   Navbar, NavItem,
   Page,
@@ -16,6 +15,9 @@ import { ContentProvider } from '../components/ContentProvider';
 import HeroVideo from '../components/HeroVideo';
 import { ProductTable, ProductPlan } from '../components/ProductPlan';
 import { CustomerFeedbacks, CustomerFeedback } from '../components/CustomerFeedback';
+import { Footer } from '../components/Footer';
+import PleaseWaitModal from '../components/PleaseWaitModal';
+import '../components/SignupModal.Textarea';
 
 const heroVideo = {
   poster: '/resources/images/test.jpg',
@@ -39,14 +41,35 @@ export default class Homepage extends React.Component {
     super(props); 
     this.state = {
       business: ContentProvider.get('business'),
-      homepage: ContentProvider.get('homepage')
+      homepage: ContentProvider.get('homepage'),
+      pleaseWaitModal: ContentProvider.get('pleaseWaitModal')
     };
     console.log(this.state);
   }
 
+  renderHeaderNavigation() {
+    const menus = this.state.homepage.headerNavigation.map(item => {
+      const props = {
+        title: item.title,
+        url: item.url
+      };
+      return (
+        <NavItem>
+          <Link className="nav-link" to={ props.url }>{ props.title }</Link>
+        </NavItem>
+      );
+    });
+
+    return (
+      <Navbar brand={this.state.business.title}>
+        { menus }
+      </Navbar>
+    );
+
+  }
+
   renderProductList() {
     const products = this.state.homepage.productList.map(item => {
-
       const pricing = {
         name: item.title,
         description: item.description,
@@ -80,8 +103,10 @@ export default class Homepage extends React.Component {
       const props = {
         text: item.text,
         rating: item.rating,        
-        name: item.customerName,
-        imageUrl: 'http:' + item.customerPortrait.file.url
+        name: item.customerName
+      };
+      if (item.customerPortrait && item.customerPortrait.file) {
+        props.imageUrl = 'http:' + item.customerPortrait.file.url;
       }
       return (
         <CustomerFeedback {... props} />
@@ -101,7 +126,9 @@ export default class Homepage extends React.Component {
       const props = {
         name: member.name,
         title: member.title,
-        imageUrl: 'http:' + member.picture.file.url
+      };
+      if (member.picture && member.picture.file) {
+        props.imageUrl = 'http:' + member.picture.file.url;
       }
       return (
         <TeamMember {... props}>
@@ -115,27 +142,96 @@ export default class Homepage extends React.Component {
         { members }
       </Team>
     );
+  }
 
+  renderRequestModal() {
 
+    const $ = window.$;
+
+    function showPleaseWaitModal() {
+      $('#please-wait-modal').modal('show');
+    }
+
+    function hidePleaseWaitModal() {
+      $('#please-wait-modal').modal('hide');
+    }
+
+    function hideRequestAppointmentModal() {
+      $('#request-appointment-modal').modal('hide');
+    }
+
+    function happyPath() {
+      $('#request-confirmation-modal').modal('show');
+    }
+
+    function sadPath() {
+      alert('Something went wrong!');
+    }
+
+    function onSendRequest() {
+      Promise
+        .resolve()
+        .then(hideRequestAppointmentModal)
+        .then(showPleaseWaitModal)
+        .then(() => {
+          return new Promise(resolve => {
+            setTimeout(resolve, 2000);
+          });
+        })
+        .then(hidePleaseWaitModal)
+        .then(happyPath)
+        .catch(sadPath);
+    }
+
+    const content = this.state.homepage.requestAppointmentModal;
+    return (
+      <SignupModal title={content.title} buttonText={content.buttonLabel} modalId="request-appointment-modal" onSubmit={onSendRequest}>
+        <div>
+          <p>
+            {content.description}
+          </p>
+        </div>
+        <div>
+          <SignupModal.Input name="name" required label={content.name} placeholder={content.name} />
+          <SignupModal.Input name="age" required label="Age" placeholder={content.age} />
+          <SignupModal.Input type="email" required name="email" label={content.email} placeholder={content.email} />
+          <SignupModal.Textarea required name="intro" label="Introduction" placeholder={content.intro} />
+          <SignupModal.Textarea required name="request" row="3" label="Request" placeholder={content.request} />
+        </div>
+      </SignupModal>
+    );
+  }
+
+  renderRequestConfirmationModal() {
+    const $ = window.$;
+    const content = this.state.homepage.requestAppointmentModal.confirmationModal;
+    const modalId = 'request-confirmation-modal';
+
+    function hideModal() {
+      $(`#${modalId}`).modal('hide');
+    }
+
+    return (
+      <SignupModal title={content.title} buttonText={ content.buttonLabel } modalId={ modalId } onSubmit={hideModal}>
+        <div>
+          <p>{ content.text }</p>
+        </div>
+      </SignupModal>      
+    );
+  }
+
+  renderPleaseWaitModal() {
+    const content = this.state.pleaseWaitModal;
+    return (
+      <PleaseWaitModal title={content.text} modalId="please-wait-modal" />   
+    );
   }
 
   render() {
     return (
       <Page>
-        <Navbar brand={this.state.business.title}>
-          <NavItem><Link to="Home" className="nav-link">Home</Link></NavItem>
-          <NavItem dropdown={true}>
-            <DropdownToggle>Github</DropdownToggle>
-            <DropdownMenu>
-              <a href="https://github.com/dennybritz/neal-react" className="dropdown-item" target="_blank">
-                Neal React
-              </a>
-              <a href="https://github.com/dennybritz/neal-sample" className="dropdown-item" target="_blank">
-                Sample Page
-              </a>
-            </DropdownMenu>
-          </NavItem>
-        </Navbar>
+        
+        { this.renderHeaderNavigation() }
 
         <HeroVideo {... heroVideo}>
           <h1 className="display-4 animated fadeInDown">{this.state.homepage.missionStatement}</h1>
@@ -188,20 +284,20 @@ export default class Homepage extends React.Component {
           { this.renderMemberList() }
         </Section>
 
-        <SignupModal modalId="request-appointment-modal" onSubmit={onSignup}>
-          <div>
-            <SignupModal.Input name="name" required label="Name" placeholder="Name" />
-            <SignupModal.Input type="email" required name="email" label="Email" placeholder="Email" />
-            <SignupModal.Input required name="age" label="Age" placeholder="Age" />
-            <SignupModal.Input type="password" required name="password" label="Password" placeholder="Password" />
-          </div>
-        </SignupModal>
+        { this.renderRequestModal() }
+        { this.renderRequestConfirmationModal() }
+        { this.renderPleaseWaitModal() }
 
         <Footer brandName={this.state.business.title}
-          facebookUrl="http://www.facebook.com"
-          twitterUrl="http://www.twitter.com/dennybritz"
-          githubUrl="https://github.com/dennybritz/neal-react"
+          facebookUrl={this.state.business.facebookUrl}
+          twitterUrl={this.state.business.twitterUrl}
+          skype={this.state.business.skype}
+          whatsup={this.state.business.whatsup}
+          email={this.state.business.emailAddress}
+          phone1={this.state.business.phoneNumber}
+          phone2={this.state.business.phoneNumberOptional}
           address={this.state.business.address} />
+
       </Page>
     );
   }
