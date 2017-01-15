@@ -55,6 +55,17 @@
 
 }
 
+.please-wait-modal {
+  
+  .modal-body {
+    text-align: center;
+  }
+
+  img {
+    margin: auto;
+  }
+}
+
 #request-appointment-modal .modal-body p {
   font-size: 0.75rem;
   margin-bottom: 2rem;
@@ -63,9 +74,3 @@
 .skype.neal-footer-social-icon i.fa-stack-2x { color: #12A5F4; }
 .whatsapp.neal-footer-social-icon i.fa-stack-2x { color: #25D366; }
 .google.neal-footer-social-icon i.fa-stack-2x { color: #d34836; }
-
-
-/* bootstrap fix */
-.modal-open {
-    padding-right: 0px !important;
-}

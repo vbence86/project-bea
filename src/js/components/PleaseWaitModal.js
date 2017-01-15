@@ -15,7 +15,7 @@ export default class PleaseWaitModal extends React.Component {
   render() {
     const modalId = this.props.modalId;
     return (
-      <div className="modal fade neal-signup-modal" key={modalId} id={modalId}
+      <div className="modal fade neal-signup-modal please-wait-modal" key={modalId} id={modalId}
       tabIndex="-1" role="dialog" aria-hidden="true">
         <div className="modal-dialog" role="document">
           <div className="modal-content">
@@ -23,9 +23,7 @@ export default class PleaseWaitModal extends React.Component {
               <h3>{ this.props.title }</h3>
             </div>
             <div className="modal-body">
-                <div class="progress progress-striped active">
-                  <div class="progress-bar" />
-                </div>
+                <img src="/resources/images/ajax-loader.gif" alt="Loading animation" />
             </div>
           </div>
         </div>

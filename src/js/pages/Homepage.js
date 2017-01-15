@@ -41,7 +41,8 @@ export default class Homepage extends React.Component {
     super(props); 
     this.state = {
       business: ContentProvider.get('business'),
-      homepage: ContentProvider.get('homepage')
+      homepage: ContentProvider.get('homepage'),
+      pleaseWaitModal: ContentProvider.get('pleaseWaitModal')
     };
     console.log(this.state);
   }
@@ -148,7 +149,7 @@ export default class Homepage extends React.Component {
     const $ = window.$;
 
     function showPleaseWaitModal() {
-      $('#please-wait-modal').modal()
+      $('#please-wait-modal').modal('show');
     }
 
     function hidePleaseWaitModal() {
@@ -160,7 +161,7 @@ export default class Homepage extends React.Component {
     }
 
     function happyPath() {
-      $('#request-confirmation-modal').modal();
+      $('#request-confirmation-modal').modal('show');
     }
 
     function sadPath() {
@@ -202,9 +203,16 @@ export default class Homepage extends React.Component {
   }
 
   renderRequestConfirmationModal() {
+    const $ = window.$;
     const content = this.state.homepage.requestAppointmentModal.confirmationModal;
+    const modalId = 'request-confirmation-modal';
+
+    function hideModal() {
+      $(`#${modalId}`).modal('hide');
+    }
+
     return (
-      <SignupModal title={content.title} buttonText={ content.buttonLabel } modalId="request-confirmation-modal">
+      <SignupModal title={content.title} buttonText={ content.buttonLabel } modalId={ modalId } onSubmit={hideModal}>
         <div>
           <p>{ content.text }</p>
         </div>
@@ -213,9 +221,9 @@ export default class Homepage extends React.Component {
   }
 
   renderPleaseWaitModal() {
-    const content = this.state.homepage.pleaseWaitModal;
+    const content = this.state.pleaseWaitModal;
     return (
-      <PleaseWaitModal title="Please wait..." modalId="please-wait-modal" />   
+      <PleaseWaitModal title={content.text} modalId="please-wait-modal" />   
     );
   }
 
