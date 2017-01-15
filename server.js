@@ -1,6 +1,7 @@
+const argv = require('minimist')(process.argv.slice(2));
 const express = require('express');
 const app = express();
-const port = 3000;
+const port = argv.p || 3000;
 
 app.use(express.static('dist'));
 app.get('/')
