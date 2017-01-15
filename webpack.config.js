@@ -2,7 +2,6 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  devtool: 'source-map',
   module: {
     loaders: [
       {
@@ -42,11 +41,6 @@ module.exports = {
         compress: {
             warnings: false
         }}),
-    new webpack.ProvidePlugin({
-        $: 'jquery',
-        jQuery: 'jquery',
-        'window.jQuery': 'jquery'
-    }),
     new HtmlWebpackPlugin({
       template: 'src/app.pug'
     })

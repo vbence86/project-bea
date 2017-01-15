@@ -66,9 +66,14 @@
   }
 }
 
-#request-appointment-modal .modal-body p {
+.modal-body p {
   font-size: 0.75rem;
   margin-bottom: 2rem;
+}
+
+.form-control {
+  padding: 0.8rem;
+  font-size: 0.8rem;
 }
 
 .skype.neal-footer-social-icon i.fa-stack-2x { color: #12A5F4; }

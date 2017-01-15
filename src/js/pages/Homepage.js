@@ -1,4 +1,3 @@
-/* global $ */
 import React from 'react';
 import { Link } from 'react-router';
 import {
@@ -12,6 +11,7 @@ import {
   TeamMember,
 } from 'neal-react';
 import { ContentProvider } from '../components/ContentProvider';
+import GoogleAnalytics from '../components/GoogleAnalytics';
 import HeroVideo from '../components/HeroVideo';
 import { ProductTable, ProductPlan } from '../components/ProductPlan';
 import { CustomerFeedbacks, CustomerFeedback } from '../components/CustomerFeedback';
@@ -229,8 +229,11 @@ export default class Homepage extends React.Component {
 
   render() {
     return (
+      
       <Page>
         
+        <GoogleAnalytics account="UA-90406705-1" />
+
         { this.renderHeaderNavigation() }
 
         <HeroVideo {... heroVideo}>
