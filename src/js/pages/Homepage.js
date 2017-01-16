@@ -1,15 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
-import {
-  HorizontalSplit,
-  Navbar, NavItem,
-  Page,
-  Section,
-  SignupModal,
-  Stripe,
-  Team,
-  TeamMember,
-} from 'neal-react';
+import { HorizontalSplit, Navbar, NavItem, Page, Section, SignupModal, Team, TeamMember } from 'neal-react';
 import { ContentProvider } from '../components/ContentProvider';
 import GoogleAnalytics from '../components/GoogleAnalytics';
 import HeroVideo from '../components/HeroVideo';
@@ -26,14 +17,6 @@ const heroVideo = {
     type: 'video/mp4'
   }
 };
-
-const onSignup = ({ name: name, email: email, password: password }) => Stripe.StripeHandler.open({
-  name: 'Stripe Integration Included',
-  description: 'Like this? Donate $5 <3',
-  panelLabel: 'Donate {{amount}}',
-  email: email,
-  amount: 500,
-});
 
 export default class Homepage extends React.Component {
 
@@ -147,6 +130,19 @@ export default class Homepage extends React.Component {
   renderRequestModal() {
 
     const $ = window.$;
+    const modalId = 'request-appointment-modal';
+    const messageServiceUrl = process.env.MESSAGE_SERVICE;
+
+    function onSendRequest() {
+      Promise
+        .resolve()
+        .then(hideRequestAppointmentModal)
+        .then(showPleaseWaitModal)
+        .then(sendFormDataToMessageService)
+        .then(hidePleaseWaitModal)
+        .then(happyPath)
+        .catch(sadPath);
+    }
 
     function showPleaseWaitModal() {
       $('#please-wait-modal').modal('show');
@@ -168,24 +164,33 @@ export default class Homepage extends React.Component {
       alert('Something went wrong!');
     }
 
-    function onSendRequest() {
-      Promise
-        .resolve()
-        .then(hideRequestAppointmentModal)
-        .then(showPleaseWaitModal)
-        .then(() => {
-          return new Promise(resolve => {
-            setTimeout(resolve, 2000);
-          });
-        })
-        .then(hidePleaseWaitModal)
-        .then(happyPath)
-        .catch(sadPath);
+    function sendFormDataToMessageService() {
+      const $form = $(`#${modalId} form`);
+      const json = JSON.stringify(serializeFormData($form));
+      return new Promise((resolve, reject) => {
+        $.ajax({
+          method: 'POST',
+          contentType: 'application/json',
+          dataType: 'json',
+          data: json,
+          url: messageServiceUrl,
+          success: resolve,
+          error: reject
+        });
+      });
+    }
+
+    function serializeFormData($form) {
+      if (!$form) throw 'Invalid input!';
+      return $form.serializeArray().reduce((m, o) => { 
+        m[o.name] = o.value; 
+        return m;
+      }, {});
     }
 
     const content = this.state.homepage.requestAppointmentModal;
     return (
-      <SignupModal title={content.title} buttonText={content.buttonLabel} modalId="request-appointment-modal" onSubmit={onSendRequest}>
+      <SignupModal title={content.title} buttonText={content.buttonLabel} modalId={modalId} onSubmit={onSendRequest}>
         <div>
           <p>
             {content.description}
