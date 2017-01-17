@@ -4,7 +4,7 @@ import { HorizontalSplit, Navbar, NavItem, Page, Section, SignupModal, Team, Tea
 import { ContentProvider } from '../components/ContentProvider';
 import GoogleAnalytics from '../components/GoogleAnalytics';
 import HeroVideo from '../components/HeroVideo';
-import { ProductTable, ProductPlan } from '../components/ProductPlan';
+import ProductPlan from '../components/ProductPlan';
 import { CustomerFeedbacks, CustomerFeedback } from '../components/CustomerFeedback';
 import { Footer } from '../components/Footer';
 import PleaseWaitModal from '../components/PleaseWaitModal';
