@@ -76,6 +76,19 @@
   font-size: 0.8rem;
 }
 
+.modal-error {
+
+  .modal-header {
+    color: white;
+    background-color: #a94442;
+  }
+
+  .modal-content {
+    color: #a94442;
+  }
+
+}
+
 .skype.neal-footer-social-icon i.fa-stack-2x { color: #12A5F4; }
 .whatsapp.neal-footer-social-icon i.fa-stack-2x { color: #25D366; }
 .google.neal-footer-social-icon i.fa-stack-2x { color: #d34836; }

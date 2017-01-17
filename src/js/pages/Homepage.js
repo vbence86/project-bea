@@ -8,6 +8,7 @@ import { ProductTable, ProductPlan } from '../components/ProductPlan';
 import { CustomerFeedbacks, CustomerFeedback } from '../components/CustomerFeedback';
 import { Footer } from '../components/Footer';
 import PleaseWaitModal from '../components/PleaseWaitModal';
+import ErrorModal from '../components/ErrorModal';
 import '../components/SignupModal.Textarea';
 
 const heroVideo = {
@@ -25,7 +26,8 @@ export default class Homepage extends React.Component {
     this.state = {
       business: ContentProvider.get('business'),
       homepage: ContentProvider.get('homepage'),
-      pleaseWaitModal: ContentProvider.get('pleaseWaitModal')
+      pleaseWaitModal: ContentProvider.get('pleaseWaitModal'),
+      defaultErrorModal: ContentProvider.get('defaultErrorModal')
     };
     console.log(this.state);
   }
@@ -132,6 +134,7 @@ export default class Homepage extends React.Component {
     const $ = window.$;
     const modalId = 'request-appointment-modal';
     const messageServiceUrl = process.env.MESSAGE_SERVICE;
+    const content = this.state.homepage.requestAppointmentModal;
 
     function onSendRequest() {
       Promise
@@ -161,7 +164,12 @@ export default class Homepage extends React.Component {
     }
 
     function sadPath() {
-      alert('Something went wrong!');
+      hidePleaseWaitModal();
+      showErrorModal();
+    }
+
+    function showErrorModal() {
+      $('#error-modal').modal('show'); 
     }
 
     function sendFormDataToMessageService() {
@@ -188,7 +196,6 @@ export default class Homepage extends React.Component {
       }, {});
     }
 
-    const content = this.state.homepage.requestAppointmentModal;
     return (
       <SignupModal title={content.title} buttonText={content.buttonLabel} modalId={modalId} onSubmit={onSendRequest}>
         <div>
@@ -229,6 +236,13 @@ export default class Homepage extends React.Component {
     const content = this.state.pleaseWaitModal;
     return (
       <PleaseWaitModal title={content.text} modalId="please-wait-modal" />   
+    );
+  }
+
+  renderErrorModal() {
+    const content = this.state.defaultErrorModal;
+    return (
+      <ErrorModal title={content.title} text={content.text} buttonText={content.buttonText} modalId="error-modal" />   
     );
   }
 
@@ -295,6 +309,7 @@ export default class Homepage extends React.Component {
         { this.renderRequestModal() }
         { this.renderRequestConfirmationModal() }
         { this.renderPleaseWaitModal() }
+        { this.renderErrorModal() }
 
         <Footer brandName={this.state.business.title}
           facebookUrl={this.state.business.facebookUrl}
