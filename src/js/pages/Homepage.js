@@ -139,37 +139,32 @@ export default class Homepage extends React.Component {
     function onSendRequest() {
       Promise
         .resolve()
-        .then(hideRequestAppointmentModal)
-        .then(showPleaseWaitModal)
+        .then(hide.bind(null, 'request-appointment-modal'))
+        .then(show.bind(null, 'please-wait-modal'))
         .then(sendFormDataToMessageService)
-        .then(hidePleaseWaitModal)
+        .then(hide.bind(null, 'please-wait-modal'))
         .then(happyPath)
         .catch(sadPath);
     }
 
-    function showPleaseWaitModal() {
-      $('#please-wait-modal').modal('show');
+    function hide(modalId) {
+      const $modal = $(`#${modalId}`);
+      return new Promise(resolve => {
+        $modal.one('hidden.bs.modal', () => {
+          resolve();
+        });
+        $modal.modal('hide');
+      });
     }
 
-    function hidePleaseWaitModal() {
-      $('#please-wait-modal').modal('hide');
-    }
-
-    function hideRequestAppointmentModal() {
-      $('#request-appointment-modal').modal('hide');
-    }
-
-    function happyPath() {
-      $('#request-confirmation-modal').modal('show');
-    }
-
-    function sadPath() {
-      hidePleaseWaitModal();
-      showErrorModal();
-    }
-
-    function showErrorModal() {
-      $('#error-modal').modal('show'); 
+    function show(modalId) {
+      const $modal = $(`#${modalId}`);
+      return new Promise(resolve => {
+        $modal.one('shown.bs.modal', () => {
+          resolve();
+        });
+        $modal.modal('show');
+      });      
     }
 
     function sendFormDataToMessageService() {
@@ -194,6 +189,15 @@ export default class Homepage extends React.Component {
         m[o.name] = o.value; 
         return m;
       }, {});
+    }
+
+    function happyPath() {
+      return show('request-confirmation-modal');
+    }
+
+    function sadPath() {
+      return hide('please-wait-modal')
+        .then(show.bind(null, 'error-modal'));
     }
 
     return (
