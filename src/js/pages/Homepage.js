@@ -60,6 +60,7 @@ export default class Homepage extends React.Component {
         description: item.description,
         price: item.prize,
         buttonText: item.ctaLabel,
+        color: item.color,
         features: (() => {
           const features = {};
           if (item.features && item.features.length) {
@@ -76,7 +77,9 @@ export default class Homepage extends React.Component {
     });
 
     return (
-      <div>{ products }</div>
+      <div className="row">
+        { products }
+      </div>
     );
   }
 

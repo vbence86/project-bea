@@ -25,9 +25,23 @@
   cursor: pointer;
 }
 
-.neal-section.inline-cta {
-  padding: 2rem;
-  text-align: center;
+.neal-section {
+
+  ul {
+
+    margin: 0;
+    
+    li {
+      margin: 0;
+    }
+
+  }
+
+  &.inline-cta {
+    padding: 2rem;
+    text-align: center;
+  }
+
 }
 
 .neal-pricing-plan-action {
