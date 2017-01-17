@@ -1,24 +1,11 @@
 import React from 'react';
-import classNames from 'classnames';
-import { HorizontalSplit } from 'neal-react';
 
-export class ProductTable extends React.Component {
-  render() {
-    return (
-      <div className="neal-pricing-table">
-        <HorizontalSplit>{this.props.children}</HorizontalSplit>
-      </div>
-    );
-  }
-}
-
-export class ProductPlan extends React.Component {
+export default class ProductPlan extends React.Component {
 
   static propTypes = {
     name: React.PropTypes.string.isRequired,
     description: React.PropTypes.string,
     price: React.PropTypes.node.isRequired,
-    period: React.PropTypes.string,
     features: React.PropTypes.objectOf(React.PropTypes.bool),
     buttonText: React.PropTypes.string,
     onClick: React.PropTypes.func,
@@ -26,32 +13,24 @@ export class ProductPlan extends React.Component {
 
   render() {
     return (
-      <div className="card">
-        <div className="card-header neal-pricing-plan-name">
-          {this.props.name}
-        </div>
-        <div className="card-block">
-          <div className="text-xs-center neal-pricing-plan-price">
-            <h4 className="card-title neal-pricing-plan-price-amount">{this.props.price}</h4>
+        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+          <div class="panel price panel-red">
+            <div class="panel-heading  text-center">
+            <h3>{ this.props.name }</h3>
+            </div>
+            <div class="panel-body text-center">
+              <p class="lead" style="font-size:40px"><strong>{ this.props.price }</strong></p>
+            </div>
+            <ul class="list-group list-group-flush text-center">
+              {Object.keys(this.props.features).map((name, idx) => {
+                return <li data-idx={idx} class="list-group-item"><i class="icon-ok text-danger" />{name}</li>
+              })}            
+            </ul>
+            <div class="panel-footer">
+              <a class="btn btn-lg btn-block btn-danger" href="#" onClick={this.props.onClick}>{this.props.buttonText}</a>
+            </div>
           </div>
         </div>
-        <div className="card-block neal-pricing-plan-features">
-          <ul className="list-group list-group-flush">
-            {Object.keys(this.props.features).map((name, idx) => {
-              const isEnabled = this.props.features[name];
-              const _className = classNames('neal-pricing-plan-feature', { isEnabled, 'isDisabled': !isEnabled });
-              return <li key={idx} className={_className}>{name}</li>;
-            })}
-          </ul>
-        </div>
-        <div>
-          <p className="card-text text-xs-center neal-pricing-plan-action">
-            <button className="btn btn-ghost btn-primary btn-lg" onClick={this.props.onClick}>
-              {this.props.buttonText}
-            </button>
-          </p>
-        </div>
-      </div>
     );
   }
 

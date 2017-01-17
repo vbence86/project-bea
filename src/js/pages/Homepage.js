@@ -76,9 +76,7 @@ export default class Homepage extends React.Component {
     });
 
     return (
-      <ProductTable>   
-        { products }       
-      </ProductTable>
+      <div>{ products }</div>
     );
   }
 
