@@ -274,17 +274,20 @@ export default class Homepage extends React.Component {
           <h3>{ this.state.homepage.subHeroTitle }</h3>
         </Section>
 
-        <Section>
+        <Section className="who-why-how">
           <HorizontalSplit padding="md">
             <div>
+              <div className="sprite girl" />
               <p className="lead">{ this.state.homepage.whoSection.title }</p>
               <p>{ this.state.homepage.whoSection.text }</p>
             </div>
             <div>
+              <div className="sprite like" />
               <p className="lead">{ this.state.homepage.whySection.title }</p>
               <p>{ this.state.homepage.whySection.text }</p>
             </div>
             <div>
+              <div className="sprite skype" />
               <p className="lead">{ this.state.homepage.howSection.title }</p>
               <p>{ this.state.homepage.howSection.text }</p>
             </div>
@@ -302,6 +305,14 @@ export default class Homepage extends React.Component {
         <Section>
           { this.renderProductList() }
         </Section>
+
+        <Section className="inline-cta gray">
+          <p>
+            <a data-toggle="modal" data-target="#request-appointment-modal" className="btn btn-ghost btn-primary btn-lg">
+              {this.state.homepage.mainCta.title}
+            </a>
+          </p>          
+        </Section>        
 
         <Section>
           { this.renderFeedbackList() }
