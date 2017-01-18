@@ -1,3 +1,4 @@
+/* global $ */
 import React from 'react';
 import { Link } from 'react-router';
 import { HorizontalSplit, Navbar, NavItem, Page, Section, SignupModal, Team, TeamMember } from 'neal-react';
@@ -9,6 +10,7 @@ import { CustomerFeedbacks, CustomerFeedback } from '../components/CustomerFeedb
 import { Footer } from '../components/Footer';
 import PleaseWaitModal from '../components/PleaseWaitModal';
 import ErrorModal from '../components/ErrorModal';
+import ProductInfoModal from '../components/ProductInfoModal';
 import '../components/SignupModal.Textarea';
 
 const heroVideo = {
@@ -69,7 +71,11 @@ export default class Homepage extends React.Component {
             });
           }
           return features;
-        })()
+        })(),
+        onClick: evt => {
+          evt.preventDefault();
+          $(document).trigger('click/product', item);
+        }
       };
       return (
         <ProductPlan {... pricing} />
@@ -80,6 +86,7 @@ export default class Homepage extends React.Component {
       <div className="row">
         { products }
       </div>
+
     );
   }
 
@@ -132,7 +139,6 @@ export default class Homepage extends React.Component {
 
   renderRequestModal() {
 
-    const $ = window.$;
     const modalId = 'request-appointment-modal';
     const messageServiceUrl = process.env.MESSAGE_SERVICE;
     const content = this.state.homepage.requestAppointmentModal;
@@ -220,7 +226,6 @@ export default class Homepage extends React.Component {
   }
 
   renderRequestConfirmationModal() {
-    const $ = window.$;
     const content = this.state.homepage.requestAppointmentModal.confirmationModal;
     const modalId = 'request-confirmation-modal';
 
@@ -247,7 +252,13 @@ export default class Homepage extends React.Component {
   renderErrorModal() {
     const content = this.state.defaultErrorModal;
     return (
-      <ErrorModal title={content.title} text={content.text} buttonText={content.buttonText} modalId="error-modal" />   
+      <ErrorModal title={content.title} text={content.text} buttonText={content.buttonText} modalId="error-modal" />
+    );
+  }
+
+  renderProductInfoModal() {
+    return (
+      <ProductInfoModal modalId="product-info-modal" />
     );
   }
 
@@ -326,6 +337,7 @@ export default class Homepage extends React.Component {
         { this.renderRequestConfirmationModal() }
         { this.renderPleaseWaitModal() }
         { this.renderErrorModal() }
+        { this.renderProductInfoModal() }
 
         <Footer brandName={this.state.business.title}
           facebookUrl={this.state.business.facebookUrl}

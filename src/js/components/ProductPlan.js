@@ -27,7 +27,7 @@ export default class ProductPlan extends React.Component {
             })}            
           </ul>
           <div class="panel-footer">
-            <a class="btn btn-lg btn-block btn-danger" href="#" onClick={this.props.onClick}>{this.props.buttonText}</a>
+            <a class="btn btn-lg btn-block btn-danger" onClick={this.props.onClick}>{this.props.buttonText}</a>
           </div>
         </div>
       </div>
