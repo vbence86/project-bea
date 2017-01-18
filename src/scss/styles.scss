@@ -69,6 +69,15 @@
 
 }
 
+.who-why-how {
+  .girl,
+  .like,
+  .skype {
+    @include transform( scale(0.5) );
+    @include transform-origin(left);
+  }
+}
+
 .please-wait-modal {
   
   .modal-body {

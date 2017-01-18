@@ -21,6 +21,13 @@
       line-height: 2.5;
     }
 }
+
+.panel.price { 
+    margin-bottom: 4rem;
+    @include desktop {
+        margin-bottom: 0;
+    }
+}
     
 .price .list-group-item{
     border-bottom-:1px solid rgba(250,250,250, .5);
