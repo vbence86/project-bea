@@ -288,17 +288,17 @@ export default class Homepage extends React.Component {
         <Section className="who-why-how">
           <HorizontalSplit padding="md">
             <div>
-              <div className="sprite girl" />
+              <div className="sprite girl" title="Made by Feepik at Flaticons.com" />
               <p className="lead">{ this.state.homepage.whoSection.title }</p>
               <p>{ this.state.homepage.whoSection.text }</p>
             </div>
             <div>
-              <div className="sprite like" />
+              <div className="sprite like" title="Made by Madebyoliver at Flaticons.com" />
               <p className="lead">{ this.state.homepage.whySection.title }</p>
               <p>{ this.state.homepage.whySection.text }</p>
             </div>
             <div>
-              <div className="sprite skype" />
+              <div className="sprite skype" title="Made by Madebyoliver at Flaticons.com" />
               <p className="lead">{ this.state.homepage.howSection.title }</p>
               <p>{ this.state.homepage.howSection.text }</p>
             </div>
