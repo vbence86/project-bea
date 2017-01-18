@@ -2,7 +2,6 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  devtool: 'source-map',
   module: {
     loaders: [
       {
@@ -17,7 +16,12 @@ module.exports = {
       {
         test: /\.scss$/,
         loader: 'style!css!sass'
-      }
+      },
+      {
+          test: /\.png$/,
+          loader: "url-loader",
+          query: { mimetype: "image/png" }
+      }      
     ]
   },
   entry: [
@@ -33,7 +37,8 @@ module.exports = {
       'process.env': {
         'NODE_ENV': JSON.stringify(process.env.NODE_ENV),
         'CONTENTFUL_SPACE': JSON.stringify(process.env.CONTENTFUL_SPACE),
-        'CONTENTFUL_ACCESS_TOKEN': JSON.stringify(process.env.CONTENTFUL_ACCESS_TOKEN)
+        'CONTENTFUL_ACCESS_TOKEN': JSON.stringify(process.env.CONTENTFUL_ACCESS_TOKEN),
+        'MESSAGE_SERVICE': JSON.stringify(process.env.MESSAGE_SERVICE)
       }
     }),
     new webpack.optimize.OccurenceOrderPlugin(),       
@@ -42,11 +47,6 @@ module.exports = {
         compress: {
             warnings: false
         }}),
-    new webpack.ProvidePlugin({
-        $: 'jquery',
-        jQuery: 'jquery',
-        'window.jQuery': 'jquery'
-    }),
     new HtmlWebpackPlugin({
       template: 'src/app.pug'
     })

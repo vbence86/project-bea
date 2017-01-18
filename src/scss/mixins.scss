@@ -16,3 +16,9 @@
     @content;
   }
 }
+
+@mixin small-screen {
+  @media (max-width: #{$small-screen-width - 1px}) {
+    @content;
+  }
+}

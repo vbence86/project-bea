@@ -1,22 +1,16 @@
 /* global $ */
 import React from 'react';
 import { Link } from 'react-router';
-import {
-  HorizontalSplit,
-  Navbar, NavItem,
-  Page,
-  Section,
-  SignupModal,
-  Stripe,
-  Team,
-  TeamMember,
-} from 'neal-react';
+import { HorizontalSplit, Navbar, NavItem, Page, Section, SignupModal, Team, TeamMember } from 'neal-react';
 import { ContentProvider } from '../components/ContentProvider';
+import GoogleAnalytics from '../components/GoogleAnalytics';
 import HeroVideo from '../components/HeroVideo';
-import { ProductTable, ProductPlan } from '../components/ProductPlan';
+import ProductPlan from '../components/ProductPlan';
 import { CustomerFeedbacks, CustomerFeedback } from '../components/CustomerFeedback';
 import { Footer } from '../components/Footer';
 import PleaseWaitModal from '../components/PleaseWaitModal';
+import ErrorModal from '../components/ErrorModal';
+import ProductInfoModal from '../components/ProductInfoModal';
 import '../components/SignupModal.Textarea';
 
 const heroVideo = {
@@ -27,14 +21,6 @@ const heroVideo = {
   }
 };
 
-const onSignup = ({ name: name, email: email, password: password }) => Stripe.StripeHandler.open({
-  name: 'Stripe Integration Included',
-  description: 'Like this? Donate $5 <3',
-  panelLabel: 'Donate {{amount}}',
-  email: email,
-  amount: 500,
-});
-
 export default class Homepage extends React.Component {
 
   constructor(props) {
@@ -42,7 +28,8 @@ export default class Homepage extends React.Component {
     this.state = {
       business: ContentProvider.get('business'),
       homepage: ContentProvider.get('homepage'),
-      pleaseWaitModal: ContentProvider.get('pleaseWaitModal')
+      pleaseWaitModal: ContentProvider.get('pleaseWaitModal'),
+      defaultErrorModal: ContentProvider.get('defaultErrorModal')
     };
     console.log(this.state);
   }
@@ -75,6 +62,7 @@ export default class Homepage extends React.Component {
         description: item.description,
         price: item.prize,
         buttonText: item.ctaLabel,
+        color: item.color,
         features: (() => {
           const features = {};
           if (item.features && item.features.length) {
@@ -83,7 +71,11 @@ export default class Homepage extends React.Component {
             });
           }
           return features;
-        })()
+        })(),
+        onClick: evt => {
+          evt.preventDefault();
+          $(document).trigger('click/product', item);
+        }
       };
       return (
         <ProductPlan {... pricing} />
@@ -91,9 +83,10 @@ export default class Homepage extends React.Component {
     });
 
     return (
-      <ProductTable>   
-        { products }       
-      </ProductTable>
+      <div className="row">
+        { products }
+      </div>
+
     );
   }
 
@@ -146,46 +139,76 @@ export default class Homepage extends React.Component {
 
   renderRequestModal() {
 
-    const $ = window.$;
-
-    function showPleaseWaitModal() {
-      $('#please-wait-modal').modal('show');
-    }
-
-    function hidePleaseWaitModal() {
-      $('#please-wait-modal').modal('hide');
-    }
-
-    function hideRequestAppointmentModal() {
-      $('#request-appointment-modal').modal('hide');
-    }
-
-    function happyPath() {
-      $('#request-confirmation-modal').modal('show');
-    }
-
-    function sadPath() {
-      alert('Something went wrong!');
-    }
+    const modalId = 'request-appointment-modal';
+    const messageServiceUrl = process.env.MESSAGE_SERVICE;
+    const content = this.state.homepage.requestAppointmentModal;
 
     function onSendRequest() {
       Promise
         .resolve()
-        .then(hideRequestAppointmentModal)
-        .then(showPleaseWaitModal)
-        .then(() => {
-          return new Promise(resolve => {
-            setTimeout(resolve, 2000);
-          });
-        })
-        .then(hidePleaseWaitModal)
+        .then(hide.bind(null, 'request-appointment-modal'))
+        .then(show.bind(null, 'please-wait-modal'))
+        .then(sendFormDataToMessageService)
+        .then(hide.bind(null, 'please-wait-modal'))
         .then(happyPath)
         .catch(sadPath);
     }
 
-    const content = this.state.homepage.requestAppointmentModal;
+    function hide(modalId) {
+      const $modal = $(`#${modalId}`);
+      return new Promise(resolve => {
+        $modal.one('hidden.bs.modal', () => {
+          resolve();
+        });
+        $modal.modal('hide');
+      });
+    }
+
+    function show(modalId) {
+      const $modal = $(`#${modalId}`);
+      return new Promise(resolve => {
+        $modal.one('shown.bs.modal', () => {
+          resolve();
+        });
+        $modal.modal('show');
+      });      
+    }
+
+    function sendFormDataToMessageService() {
+      const $form = $(`#${modalId} form`);
+      const json = JSON.stringify(serializeFormData($form));
+      return new Promise((resolve, reject) => {
+        $.ajax({
+          method: 'POST',
+          contentType: 'application/json',
+          dataType: 'json',
+          data: json,
+          url: messageServiceUrl,
+          success: resolve,
+          error: reject
+        });
+      });
+    }
+
+    function serializeFormData($form) {
+      if (!$form) throw 'Invalid input!';
+      return $form.serializeArray().reduce((m, o) => { 
+        m[o.name] = o.value; 
+        return m;
+      }, {});
+    }
+
+    function happyPath() {
+      return show('request-confirmation-modal');
+    }
+
+    function sadPath() {
+      return hide('please-wait-modal')
+        .then(show.bind(null, 'error-modal'));
+    }
+
     return (
-      <SignupModal title={content.title} buttonText={content.buttonLabel} modalId="request-appointment-modal" onSubmit={onSendRequest}>
+      <SignupModal title={content.title} buttonText={content.buttonLabel} modalId={modalId} onSubmit={onSendRequest}>
         <div>
           <p>
             {content.description}
@@ -203,7 +226,6 @@ export default class Homepage extends React.Component {
   }
 
   renderRequestConfirmationModal() {
-    const $ = window.$;
     const content = this.state.homepage.requestAppointmentModal.confirmationModal;
     const modalId = 'request-confirmation-modal';
 
@@ -227,10 +249,26 @@ export default class Homepage extends React.Component {
     );
   }
 
+  renderErrorModal() {
+    const content = this.state.defaultErrorModal;
+    return (
+      <ErrorModal title={content.title} text={content.text} buttonText={content.buttonText} modalId="error-modal" />
+    );
+  }
+
+  renderProductInfoModal() {
+    return (
+      <ProductInfoModal modalId="product-info-modal" />
+    );
+  }
+
   render() {
     return (
+      
       <Page>
         
+        <GoogleAnalytics account="UA-90406705-1" />
+
         { this.renderHeaderNavigation() }
 
         <HeroVideo {... heroVideo}>
@@ -247,17 +285,20 @@ export default class Homepage extends React.Component {
           <h3>{ this.state.homepage.subHeroTitle }</h3>
         </Section>
 
-        <Section>
+        <Section className="who-why-how">
           <HorizontalSplit padding="md">
             <div>
+              <div className="sprite girl" />
               <p className="lead">{ this.state.homepage.whoSection.title }</p>
               <p>{ this.state.homepage.whoSection.text }</p>
             </div>
             <div>
+              <div className="sprite like" />
               <p className="lead">{ this.state.homepage.whySection.title }</p>
               <p>{ this.state.homepage.whySection.text }</p>
             </div>
             <div>
+              <div className="sprite skype" />
               <p className="lead">{ this.state.homepage.howSection.title }</p>
               <p>{ this.state.homepage.howSection.text }</p>
             </div>
@@ -276,6 +317,14 @@ export default class Homepage extends React.Component {
           { this.renderProductList() }
         </Section>
 
+        <Section className="inline-cta gray">
+          <p>
+            <a data-toggle="modal" data-target="#request-appointment-modal" className="btn btn-ghost btn-primary btn-lg">
+              {this.state.homepage.mainCta.title}
+            </a>
+          </p>          
+        </Section>        
+
         <Section>
           { this.renderFeedbackList() }
         </Section>
@@ -287,6 +336,8 @@ export default class Homepage extends React.Component {
         { this.renderRequestModal() }
         { this.renderRequestConfirmationModal() }
         { this.renderPleaseWaitModal() }
+        { this.renderErrorModal() }
+        { this.renderProductInfoModal() }
 
         <Footer brandName={this.state.business.title}
           facebookUrl={this.state.business.facebookUrl}

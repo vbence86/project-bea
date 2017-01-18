@@ -16,7 +16,28 @@
 }
 
 .neal-customer-quote-quote .ratings {
+  position: absolute;
+  right: 25px;
+  bottom: 60px;  
+
+  @include small-screen {
+    position: relative;
+    right: auto;
+    bottom: auto;
+  }
+
   margin-bottom: 0;
-  text-align: right;
   font-size: 1.5rem;
+}
+
+.neal-customer-quote {
+  $height: 350px;
+  height: $height;
+  @include small-screen { height: auto; }
+
+  .neal-customer-quote-quote {
+    height: $height;
+    @include small-screen { height: auto; }
+  }
+
 }

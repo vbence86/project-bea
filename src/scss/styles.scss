@@ -25,9 +25,23 @@
   cursor: pointer;
 }
 
-.neal-section.inline-cta {
-  padding: 2rem;
-  text-align: center;
+.neal-section {
+
+  ul {
+
+    margin: 0;
+    
+    li {
+      margin: 0;
+    }
+
+  }
+
+  &.inline-cta {
+    padding: 2rem;
+    text-align: center;
+  }
+
 }
 
 .neal-pricing-plan-action {
@@ -55,6 +69,15 @@
 
 }
 
+.who-why-how {
+  .girl,
+  .like,
+  .skype {
+    @include transform( scale(0.5) );
+    @include transform-origin(left);
+  }
+}
+
 .please-wait-modal {
   
   .modal-body {
@@ -66,9 +89,27 @@
   }
 }
 
-#request-appointment-modal .modal-body p {
+.modal-body p {
   font-size: 0.75rem;
   margin-bottom: 2rem;
+}
+
+.form-control {
+  padding: 0.8rem;
+  font-size: 0.8rem;
+}
+
+.modal-error {
+
+  .modal-header {
+    color: white;
+    background-color: #a94442;
+  }
+
+  .modal-content {
+    color: #a94442;
+  }
+
 }
 
 .skype.neal-footer-social-icon i.fa-stack-2x { color: #12A5F4; }
