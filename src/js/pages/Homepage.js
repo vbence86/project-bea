@@ -219,7 +219,7 @@ export default class Homepage extends React.Component {
           <SignupModal.Input name="age" required label="Age" placeholder={content.age} />
           <SignupModal.Input type="email" required name="email" label={content.email} placeholder={content.email} />
           <SignupModal.Textarea required name="intro" label="Introduction" placeholder={content.intro} />
-          <SignupModal.Textarea required name="request" row="3" label="Request" placeholder={content.request} />
+          <SignupModal.Textarea required name="request" rows="3" label="Request" placeholder={content.request} />
         </div>
       </SignupModal>
     );
