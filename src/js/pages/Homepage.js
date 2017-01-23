@@ -16,7 +16,7 @@ import '../components/SignupModal.Textarea';
 const heroVideo = {
   poster: '/resources/images/test.jpg',
   source: {
-    url: '/resources/videos/test.mp4',
+    url: '/resources/videos/test.m4v',
     type: 'video/mp4'
   }
 };
