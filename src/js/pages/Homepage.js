@@ -1,4 +1,4 @@
-/* global $ */
+/* global $, ga */
 import React from 'react';
 import { Link } from 'react-router';
 import { HorizontalSplit, Navbar, NavItem, Page, Section, SignupModal, Team, TeamMember } from 'neal-react';
@@ -21,6 +21,64 @@ const heroVideo = {
   }
 };
 
+function registerGAEvents() {
+  $('[data-target=#request-appointment-modal]').click(() => {
+    $(document).trigger('request/open');
+  });
+  
+  $(document).on('request/open', trackOpenRequestModal);
+  $(document).on('request/submit', trackSubmitEvent);
+  $(document).on('request/submit/happy-path', trackSubmitSuccess);
+  $(document).on('request/submit/sad-path', trackSubmitFailure);
+  $(document).on('click/product', trackProductEvent);
+}
+
+function trackOpenRequestModal() {
+  ga('send', {
+    hitType: 'event',
+    eventCategory: 'Request an appointment',
+    eventAction: 'click',
+    eventLabel: 'Open'
+  });
+}
+
+function trackSubmitEvent() {
+  ga('send', {
+    hitType: 'event',
+    eventCategory: 'Request an appointment',
+    eventAction: 'click',
+    eventLabel: 'Submit'
+  });      
+}
+
+function trackSubmitSuccess() {
+  ga('send', {
+    hitType: 'event',
+    eventCategory: 'Request an appointment',
+    eventAction: 'click',
+    eventLabel: 'Success'
+  });
+}
+
+function trackSubmitFailure() {
+  ga('send', {
+    hitType: 'event',
+    eventCategory: 'Request an appointment',
+    eventAction: 'click',
+    eventLabel: 'Error'
+  });
+}    
+
+function trackProductEvent(evt, data) {
+  var title = data.title || 'Invalid product';
+  ga('send', {
+    hitType: 'event',
+    eventCategory: 'Product',
+    eventAction: 'click',
+    eventLabel: title
+  });
+}
+
 export default class Homepage extends React.Component {
 
   constructor(props) {
@@ -31,7 +89,10 @@ export default class Homepage extends React.Component {
       pleaseWaitModal: ContentProvider.get('pleaseWaitModal'),
       defaultErrorModal: ContentProvider.get('defaultErrorModal')
     };
-    console.log(this.state);
+  }
+
+  componentDidMount() {
+    registerGAEvents();
   }
 
   renderHeaderNavigation() {
@@ -146,12 +207,17 @@ export default class Homepage extends React.Component {
     function onSendRequest() {
       Promise
         .resolve()
+        .then(emitSubmitEvent)
         .then(hide.bind(null, 'request-appointment-modal'))
         .then(show.bind(null, 'please-wait-modal'))
         .then(sendFormDataToMessageService)
         .then(hide.bind(null, 'please-wait-modal'))
         .then(happyPath)
         .catch(sadPath);
+    }
+
+    function emitSubmitEvent() {
+      $(document).trigger('request/submit');
     }
 
     function hide(modalId) {
@@ -199,10 +265,12 @@ export default class Homepage extends React.Component {
     }
 
     function happyPath() {
+      $(document).trigger('request/submit/happy-path');
       return show('request-confirmation-modal');
     }
 
     function sadPath() {
+      $(document).trigger('request/submit/sad-path');
       return hide('please-wait-modal')
         .then(show.bind(null, 'error-modal'));
     }
