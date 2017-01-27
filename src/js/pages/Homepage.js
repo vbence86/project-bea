@@ -117,7 +117,17 @@ export default class Homepage extends React.Component {
   }
 
   renderProductList() {
-    const products = this.state.homepage.productList.map(item => {
+    const productList = this.state.homepage.productList;
+    const numberOfFeaturesOfPremiumProduct = (products => {
+      const premium = products[products.length - 1];
+      if (premium && premium.features) {
+        return premium.features.length || 0;
+      } else {
+        return 0;
+      }
+    })(productList);
+
+    const products = productList.map(item => {
       const pricing = {
         name: item.title,
         description: item.description,
@@ -125,13 +135,16 @@ export default class Homepage extends React.Component {
         buttonText: item.ctaLabel,
         color: item.color,
         features: (() => {
-          const features = {};
+          const features = [];
           if (item.features && item.features.length) {
-            item.features.forEach(feature => {
-              features[feature] = true;
-            });
+            const diff = numberOfFeaturesOfPremiumProduct - item.features.length;
+            if (item.features.length < numberOfFeaturesOfPremiumProduct) {
+              for (let i = 0; i < diff; i += 1) {
+                item.features.push('');
+              }
+            }
           }
-          return features;
+          return item.features;
         })(),
         onClick: evt => {
           evt.preventDefault();

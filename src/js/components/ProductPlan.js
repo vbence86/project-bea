@@ -22,7 +22,7 @@ export default class ProductPlan extends React.Component {
             <p class="lead" fontSize="40px"><strong>{ this.props.price }</strong></p>
           </div>
           <ul class="list-group list-group-flush">
-            {Object.keys(this.props.features).map((name, idx) => {
+            {this.props.features.map((name, idx) => {
               return <li data-idx={idx} class="list-group-item">{name}</li>
             })}            
           </ul>
