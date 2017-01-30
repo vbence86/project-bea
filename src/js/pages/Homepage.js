@@ -1,7 +1,7 @@
 /* global $, ga */
 import React from 'react';
 import { Link } from 'react-router';
-import { HorizontalSplit, Navbar, NavItem, Page, Section, SignupModal, Team, TeamMember } from 'neal-react';
+import { HorizontalSplit, Navbar, NavItem, Page, Section, SignupModal } from 'neal-react';
 import { ContentProvider } from '../components/ContentProvider';
 import GoogleAnalytics from '../components/GoogleAnalytics';
 import HeroVideo from '../components/HeroVideo';
@@ -11,6 +11,7 @@ import { Footer } from '../components/Footer';
 import PleaseWaitModal from '../components/PleaseWaitModal';
 import ErrorModal from '../components/ErrorModal';
 import ProductInfoModal from '../components/ProductInfoModal';
+import { Team, TeamMember } from '../components/Team';
 import '../components/SignupModal.Textarea';
 
 const heroVideo = {
@@ -135,7 +136,6 @@ export default class Homepage extends React.Component {
         buttonText: item.ctaLabel,
         color: item.color,
         features: (() => {
-          const features = [];
           if (item.features && item.features.length) {
             const diff = numberOfFeaturesOfPremiumProduct - item.features.length;
             if (item.features.length < numberOfFeaturesOfPremiumProduct) {
