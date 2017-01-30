@@ -15,9 +15,9 @@ import { Team, TeamMember } from '../components/Team';
 import '../components/SignupModal.Textarea';
 
 const heroVideo = {
-  poster: '/resources/images/test.jpg',
+  poster: '/resources/images/first-frame-hero.jpg',
   source: {
-    url: '/resources/videos/test.m4v',
+    url: '/resources/videos/shutterstock_v17053459.m4v',
     type: 'video/mp4'
   }
 };
