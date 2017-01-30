@@ -1,0 +1,21 @@
+.neal-team {
+	margin-top: 5rem;
+}
+
+.neal-team-member {
+	text-align: center;
+}
+
+.neal-team-member-img {
+  width: 15rem;
+  height: 15rem;
+  margin: auto;
+  background-size: cover;
+  background-origin: border-box;
+  background-position: 50%;
+  border-radius: 50%;
+  display: inline-block;
+  vertical-align: middle;
+  border: 5px solid white;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.35);
+}
