@@ -15,7 +15,7 @@ export default class PleaseWaitModal extends React.Component {
   render() {
     const modalId = this.props.modalId;
     return (
-      <div className="modal fade neal-signup-modal please-wait-modal" key={modalId} id={modalId}
+      <div className="modal fade please-wait-modal" key={modalId} id={modalId}
       tabIndex="-1" role="dialog" aria-hidden="true">
         <div className="modal-dialog" role="document">
           <div className="modal-content">

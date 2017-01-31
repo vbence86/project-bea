@@ -1,10 +1,6 @@
 
 .neal-navbar {
 
-  .container {
-    margin-left: 0;
-  }
-
   .navbar-brand {
     float: left;
   }
@@ -70,12 +66,29 @@
 }
 
 .who-why-how {
+
+  p {
+    text-align: justify;
+  }
+
   .girl,
   .like,
   .skype {
     @include transform( scale(0.5) );
     @include transform-origin(left);
   }
+}
+
+.neal-signup-modal {
+
+  .modal-body {
+    p {
+      margin-bottom: 2rem;
+      font-size: 1rem;
+      text-align: justify;
+    }
+  }
+
 }
 
 .please-wait-modal {

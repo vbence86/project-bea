@@ -25,6 +25,7 @@
     "babel-preset-react": "^6.16.0",
     "babel-preset-stage-0": "^6.16.0",
     "bourbon": "^4.2.7",
+    "compression": "^1.6.2",
     "contentful": "^3.8.0",
     "css-loader": "^0.26.1",
     "eslint": "^3.12.2",

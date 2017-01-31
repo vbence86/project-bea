@@ -1,3 +1,9 @@
+.neal-customer-quotes {
+  .neal-horizontal-split-col {
+    margin-bottom: 6rem;
+  } 
+}
+
 .neal-customer-quote-img {
   width: 6rem;
   height: 6rem;
@@ -33,6 +39,7 @@
 .neal-customer-quote {
   $height: 350px;
   height: $height;
+  text-align: justify;
   @include small-screen { height: auto; }
 
   .neal-customer-quote-quote {

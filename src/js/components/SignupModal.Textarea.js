@@ -15,7 +15,7 @@ SignupModal.Textarea = class Textarea extends React.Component {
 
   render() {
     return (
-      <div className="form-group neal-signup-modal-input">
+      <div className="form-group signup-modal-input">
         <label className="sr-only" htmlFor={this.props.name}>{this.props.label}</label>
         <textarea className="form-control" rows={this.props.rows} name={this.props.name}
           placeholder={this.props.placeholder} {... this.props} />

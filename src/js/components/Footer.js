@@ -21,24 +21,12 @@ export class Footer extends React.Component {
               <p className="neal-footer-copyright">
                 © {new Date().getFullYear()}, {this.props.brandName}
               </p>
-							<p>
-								<i class="fa fa-phone" aria-hidden="true" /> {this.props.phone1}
-							</p>
-							<p>
-								<i class="fa fa-phone" aria-hidden="true" /> {this.props.phone2}
-							</p>
-              <p>
-                <i class="fa fa-map-marker" aria-hidden="true" /> {this.props.address}
-              </p>
-              <p>
-                <i class="fa fa-skype" aria-hidden="true" /> {this.props.skype}
-              </p>
-              <p>
-                <i class="fa fa-whatsapp" aria-hidden="true" /> {this.props.whatsup}
-              </p>
-              <p>
-                 <i class="fa fa-google" aria-hidden="true" /> <a href={`mailto:${this.props.email}`}>{this.props.email}</a>
-              </p>
+              { this.renderBusinessDetails(this.props.phone1, 'phone') }
+              { this.renderBusinessDetails(this.props.whatsup, 'whatsapp') }
+              { this.renderBusinessDetails(this.props.phone2, 'phone2') }
+              { this.renderBusinessDetails(this.props.skype, 'skype') }
+              { this.renderBusinessDetails(this.props.email, 'google', `mailto:${this.props.email}`) }
+              { this.renderBusinessDetails(this.props.address, 'map-marker') }              
             </Col>
             <Col className="social-icons-container" size={['xs-12', 'md-4']}>
               {this.renderSocialIcons()}
@@ -47,6 +35,24 @@ export class Footer extends React.Component {
         </Container>
       </footer>
     );
+  }
+
+  renderBusinessDetails(text, icon, href) {
+    if (!text) return null;
+    const iconClass = `fa fa-${icon}`;
+    if (href) {
+      return (
+        <p>
+           <i className={ iconClass } aria-hidden="true" /> <a href={ href }>{ text }</a>
+        </p>        
+      );
+    } else {
+      return (
+        <p>
+          <i className={ iconClass } aria-hidden="true" /> { text }
+        </p>    
+      );
+    }
   }
 
   renderSocialIcons() {
