@@ -1,6 +1,5 @@
 /* global $, ga */
 import React from 'react';
-import { Link } from 'react-router';
 import { HorizontalSplit, Navbar, NavItem, Page, Section, SignupModal } from 'neal-react';
 import { ContentProvider } from '../components/ContentProvider';
 import GoogleAnalytics from '../components/GoogleAnalytics';
@@ -104,7 +103,7 @@ export default class Homepage extends React.Component {
       };
       return (
         <NavItem>
-          <Link className="nav-link" to={ props.url }>{ props.title }</Link>
+          <a className="nav-link" href={ props.url } target="_blank">{ props.title }</a>
         </NavItem>
       );
     });
