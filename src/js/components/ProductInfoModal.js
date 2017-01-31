@@ -29,7 +29,7 @@ export default class ProductInfoModal extends React.Component {
 
   render() {
     return (
-      <div className="modal fade neal-signup-modal product-info-modal" key={this.props.modalId} id={this.props.modalId}
+      <div className="modal fade product-info-modal" key={this.props.modalId} id={this.props.modalId}
       tabIndex="-1" role="dialog" aria-hidden="true">
         <div className="modal-dialog" role="document">
           <div className="modal-content">

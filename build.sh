@@ -20,10 +20,16 @@ if [ -d "$DIST" ]; then rm -Rf $DIST; fi
 npm run lint
 webpack -p --bail
 
+# RESOURCES
 cp -r $SOURCE/$DIR_SASS $DIST/$DIR_CSS
 cp -r $SOURCE/$DIR_FONTS $DIST/$DIR_FONTS
 cp -r $RESOURCES $DIST/$RESOURCES
 
+# SEO
+cp $SOURCE/favicon.ico $DIST
+cp $SOURCE/sitemap.xml $DIST
+cp $SOURCE/robots.txt $DIST
+
 echo "----------------------------------------------";
-echo "Build successful!";
+echo "             Build is successful!";
 echo "----------------------------------------------";
