@@ -70,6 +70,11 @@
 }
 
 .who-why-how {
+
+  p {
+    text-align: justify;
+  }
+
   .girl,
   .like,
   .skype {
@@ -84,6 +89,7 @@
     p {
       margin-bottom: 2rem;
       font-size: 1rem;
+      text-align: justify;
     }
   }
 
