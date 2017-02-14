@@ -15,6 +15,11 @@ export default class ProductPlan extends React.Component {
     return (
       <div class="col-xs-32 col-lg-4">
         <div className={colorSchema}>
+          {((props) => {
+            if (props.bestSeller) {
+              return <div class="best-seller" />
+            }
+          })(this.props)}
           <div class="panel-heading text-center">
           <h3>{ this.props.name }</h3>
           </div>
