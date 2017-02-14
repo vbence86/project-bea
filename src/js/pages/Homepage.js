@@ -134,6 +134,7 @@ export default class Homepage extends React.Component {
         price: item.prize,
         buttonText: item.ctaLabel,
         color: item.color,
+        bestSeller: item.bestSeller,
         features: (() => {
           if (item.features && item.features.length) {
             const diff = numberOfFeaturesOfPremiumProduct - item.features.length;
